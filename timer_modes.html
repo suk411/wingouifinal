@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    :root {
+      --glass-container-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+      --active-item-bg: linear-gradient(rgba(255, 200, 55, 0.25) 0%, rgba(168, 120, 255, 0.1) 100%);
+      --gold-light: rgb(255, 200, 55);
+      --muted-text: rgba(255, 255, 255, 0.45);
+    }
+
+    body {
+      background-color: #1a0a2e;
+      display: flex;
+      justify-content: center;
+      padding-top: 50px;
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    /* 1. Main Glass Container */
+    .GameList__C {
+      display: flex;
+      width: 445px;
+      height: 118px;
+      background-image: var(--glass-container-bg);
+      backdrop-filter: blur(7.9px);
+      -webkit-backdrop-filter: blur(7.9px);
+      border: 0.8px solid rgba(255, 200, 55, 0.1);
+      border-radius: 13.2px;
+      box-shadow: 0 2.6px 13.2px rgba(0, 0, 0, 0.3);
+      margin: 17px auto 0;
+      overflow: hidden;
+    }
+
+    /* 2. Individual Item Styling */
+    .GameList__C-item {
+      position: relative;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      cursor: pointer;
+      padding-bottom: 12px;
+      transition: all 0.2s ease;
+    }
+
+    .GameList__C-item div {
+      font-size: 15.8px;
+      text-align: center;
+      line-height: 1.2;
+      color: var(--muted-text);
+    }
+
+    /* 3. ACTIVE ITEM - Glass & Light Effects */
+    .GameList__C-item.active {
+      background-image: var(--active-item-bg);
+      /* Inset glows for depth */
+      box-shadow:
+        inset 0 -1.3px 5.2px rgba(255, 200, 55, 0.15),
+        inset 0 1.3px 5.2px rgba(168, 120, 255, 0.2);
+    }
+
+    /* THE MISSING TOP GLASS EFFECT (Specular Highlight) */
+    .GameList__C-item.active::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 20%;
+      /* Centered light streak */
+      right: 20%;
+      height: 1.5px;
+      /* Thin sharp line */
+      background: linear-gradient(90deg, rgba(0, 0, 0, 0), var(--gold-light), rgba(0, 0, 0, 0));
+      border-radius: 1.3px;
+      pointer-events: none;
+      box-shadow: 0 0 5px var(--gold-light);
+      /* Adds a faint glow to the streak */
+    }
+
+    .GameList__C-item.active div {
+      color: var(--gold-light);
+      font-weight: 700;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="GameList__C">
+
+    <!-- Tab 1 (Active with Top Glass Effect) -->
+    <div class="GameList__C-item active">
+      <div>Win Go<br>30s</div>
+    </div>
+
+    <!-- Tab 2 -->
+    <div class="GameList__C-item">
+      <div>Win Go<br>1Min</div>
+    </div>
+
+    <!-- Tab 3 -->
+    <div class="GameList__C-item">
+      <div>Win Go<br>3Min</div>
+    </div>
+
+    <!-- Tab 4 -->
+    <div class="GameList__C-item">
+      <div>Win Go<br>5Min</div>
+    </div>
+
+  </div>
+
+</body>
+
+</html>

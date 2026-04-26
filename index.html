@@ -1,0 +1,2932 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RAJALUCK - Wallet & Games</title>
+  <style>
+    :root {
+      --gold: #ffc837;
+      --gold-alpha: rgba(255, 200, 55, 0.5);
+      --gold-light: #ffc837;
+      --gold-glow: rgba(255, 200, 55, 0.15);
+      --red: #fd565c;
+      --green: #40ad72;
+      --violet: #b659fe;
+      --primary-red: #fb4e4e;
+      --primary-green: #5cba47;
+      --primary-violet: #eb43dd;
+      --bg-glass: linear-gradient(135deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.02));
+      --sweep-color: rgba(255, 255, 255, 0.2);
+      --font-stack: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, "Segoe UI", Arial, sans-serif;
+      --glass-card-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.04) 100%);
+      --gold-grad: linear-gradient(135deg, #FFC837 0%, #E8A820 100%);
+      --purple-grad: linear-gradient(135deg, #7C3AED 0%, #A855F7 100%);
+      --glass-container-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+      --active-item-bg: linear-gradient(rgba(255, 200, 55, 0.25) 0%, rgba(168, 120, 255, 0.1) 100%);
+      --gold-light: rgb(255, 200, 55);
+      --muted-text: rgba(255, 255, 255, 0.45);
+      --bg-glass-main: linear-gradient(135deg, rgba(26, 10, 46, 0.88) 0%, rgba(45, 21, 96, 0.78) 50%, rgba(58, 29, 114, 0.88) 100%);
+    }
+
+    body {
+      background-color: #1a0a2e;
+      min-height: 100vh;
+      margin: 0;
+      padding-top: 0;
+      font-family: var(--font-stack);
+      -webkit-font-smoothing: antialiased;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* ==================== NAVBAR ==================== */
+    .navbar {
+      position: relative;
+      width: 100%;
+      height: 60.7px;
+      background: rgba(26, 10, 46, 0.95);
+      backdrop-filter: blur(20px);
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      padding: 0 12px;
+      box-sizing: border-box;
+      z-index: 1000;
+      gap: 8px;
+    }
+
+    .navbar__content-left {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      min-width: 0;
+    }
+
+    .back-btn {
+      position: relative;
+      width: 42.2px;
+      height: 42.2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border-radius: 50%;
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
+      border: 0.8px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 2.6px 9.2px rgba(0, 0, 0, 0.15),
+        inset 0 0.6px 1.3px rgba(255, 255, 255, 0.2);
+      overflow: hidden;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .back-btn::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 4px;
+      right: 4px;
+      height: 45%;
+      background: linear-gradient(rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0));
+      border-radius: 50% 50% 0 0;
+      pointer-events: none;
+    }
+
+    .back-btn:active {
+      transform: scale(0.94);
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.15) 100%);
+    }
+
+    .back-btn svg {
+      color: #ffffff;
+      z-index: 1;
+    }
+
+    .navbar__content-center {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: auto;
+      max-width: 256px;
+      height: 47px;
+      min-width: 150px;
+    }
+
+    .brand-logo-svg {
+      display: block;
+      height: 100%;
+      width: auto;
+    }
+
+    .navbar__content-right {
+      position: relative;
+      display: flex;
+      gap: 8px;
+      justify-content: flex-end;
+      align-items: center;
+      min-width: 0;
+    }
+
+    .WinGo__C-head-more {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .head-more-icon {
+      width: 31.6px;
+      height: 31.6px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      display: block;
+      cursor: pointer;
+      transition: opacity 0.1s;
+    }
+
+    .head-more-icon:active {
+      opacity: 0.6;
+    }
+
+    /* ==================== RESPONSIVE CONTAINER ==================== */
+    .main-container {
+      width: 100%;
+      max-width: 460px;
+      padding: 0 12px;
+      margin: 0 auto;
+      padding-bottom: 20px;
+      box-sizing: border-box;
+    }
+
+    @media (max-width: 380px) {
+      .main-container {
+        padding: 0 8px;
+        padding-bottom: 15px;
+      }
+    }
+
+    /* ==================== WALLET CARD ==================== */
+    .Wallet__C {
+      width: 100%;
+      padding: 15px 0;
+      margin-top: 10px;
+      box-sizing: border-box;
+    }
+
+    .Wallet__C-balance {
+      position: relative;
+      background: var(--glass-card-bg);
+      backdrop-filter: blur(13.2px);
+      -webkit-backdrop-filter: blur(13.2px);
+      border-radius: 26px;
+      border: 0.8px solid rgba(255, 200, 55, 0.15);
+      padding: 20px 15px;
+      box-shadow: inset 0 0.6px 1.3px rgba(255, 255, 255, 0.2);
+      overflow: hidden;
+    }
+
+    .Wallet__C-balance-l1 {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      font-size: 26.4px;
+      font-weight: 700;
+      color: #FFC837;
+    }
+
+    .Wallet__C-balance-l1 img {
+      width: 28px;
+      height: 28px;
+    }
+
+    .Wallet__C-balance-l2 {
+      margin-top: 9px;
+      font-size: 17.1px;
+      color: rgba(255, 255, 255, 0.6);
+      text-transform: capitalize;
+      text-align: center;
+    }
+
+    .Wallet__C-balance-l3 {
+      margin-top: 23px;
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+    }
+
+    .glass-btn {
+      position: relative;
+      flex: 1;
+      height: 46px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 26px;
+      font-weight: 600;
+      font-size: 19.8px;
+      cursor: pointer;
+      overflow: hidden;
+      transition: transform 0.1s;
+    }
+
+    .glass-btn::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 2px;
+      right: 2px;
+      height: 45%;
+      background: linear-gradient(rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0));
+      border-radius: 20px 20px 0 0;
+      pointer-events: none;
+    }
+
+    .btn-withdraw {
+      background: var(--purple-grad);
+      color: #fff;
+      box-shadow: 0 2.6px 7.9px rgba(124, 58, 237, 0.3), inset 0 0.6px 1.3px rgba(255, 255, 255, 0.3);
+    }
+
+    .btn-deposit {
+      background: var(--gold-grad);
+      color: #1A0A2E;
+      box-shadow: 0 2.6px 7.9px rgba(255, 200, 55, 0.3), inset 0 0.6px 1.3px rgba(255, 255, 255, 0.4);
+    }
+
+    .glass-btn:active {
+      transform: scale(0.96);
+    }
+
+    .refresh {
+      background: rgba(255, 255, 255, 0.08);
+      border: 0.8px solid rgba(255, 200, 55, 0.25);
+      border-radius: 50%;
+      width: 34px;
+      height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    /* ==================== GAME LIST TABS ==================== */
+    .GameList__C {
+      display: flex;
+      width: 100%;
+      height: 118px;
+      background-image: var(--glass-container-bg);
+      backdrop-filter: blur(7.9px);
+      -webkit-backdrop-filter: blur(7.9px);
+      border: 0.8px solid rgba(255, 200, 55, 0.1);
+      border-radius: 13.2px;
+      box-shadow: 0 2.6px 13.2px rgba(0, 0, 0, 0.3);
+      margin: 8px auto 0;
+      overflow: hidden;
+      box-sizing: border-box;
+    }
+
+    .GameList__C-item {
+      position: relative;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      padding: 10px 5px;
+    }
+
+    .GameList__C-item.active {
+      cursor: pointer;
+    }
+
+    .GameList__C-item:not(.active) {
+      cursor: default;
+    }
+
+    .timer-icon {
+      width: 48px;
+      height: 48px;
+      margin-bottom: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .GameList__C-item div {
+      font-size: 15.8px;
+      text-align: center;
+      line-height: 1.2;
+      color: var(--muted-text);
+      font-weight: 500;
+    }
+
+    .GameList__C-item.active {
+      background-image: var(--active-item-bg);
+      box-shadow:
+        inset 0 -1.3px 5.2px rgba(255, 200, 55, 0.15),
+        inset 0 1.3px 5.2px rgba(168, 120, 255, 0.2);
+    }
+
+    .GameList__C-item.active::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 20%;
+      right: 20%;
+      height: 1.5px;
+      background: linear-gradient(90deg, rgba(0, 0, 0, 0), var(--gold-light), rgba(0, 0, 0, 0));
+      border-radius: 1.3px;
+      pointer-events: none;
+      box-shadow: 0 0 5px var(--gold-light);
+    }
+
+    .GameList__C-item.active .timer-icon {
+      filter: brightness(1.15);
+    }
+
+    .GameList__C-item.active div {
+      color: var(--gold-light);
+      font-weight: 700;
+    }
+
+    /* ==================== TIME LEFT TIMER SECTION ==================== */
+    .TimeLeft__C {
+      position: relative;
+      width: 100%;
+      height: 132.05px;
+      margin: 15px auto;
+      border-radius: 13.2px;
+      background: url("https://20518.rajaluckking.com/assets/png/diban-f66383f9.png") no-repeat center / 100% 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      animation: staggerIn 0.4s ease-out both;
+      box-sizing: border-box;
+    }
+
+    .TimeLeft__C::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        repeating-linear-gradient(45deg, transparent, transparent 7.9px, rgba(255, 200, 55, 0.03) 7.9px, rgba(255, 200, 55, 0.03) 8.6px),
+        var(--bg-glass-main);
+      z-index: 0;
+    }
+
+    .TimeLeft__C::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: -100%;
+      width: 200%;
+      height: 1.3px;
+      background: linear-gradient(90deg, transparent 0%, var(--gold-alpha) 50%, transparent 100%);
+    }
+
+    .TimeLeft__C-scanline {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .TimeLeft__C-scanline::before {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 50px;
+      background: linear-gradient(transparent, rgba(255, 200, 55, 0.06), transparent);
+      animation: scanDown 4s ease-in-out infinite;
+    }
+
+    .TimeLeft__C-time-digit {
+      position: relative;
+      width: 37px;
+      height: 45px;
+      margin: 0 2.6px;
+      border-radius: 6.6px;
+      background: linear-gradient(rgba(255, 200, 55, 0.15) 0%, rgba(255, 200, 55, 0.05) 50%, transparent 50%, rgba(255, 200, 55, 0.12) 100%);
+      box-shadow: 0 0 10.5px rgba(255, 200, 55, 0.15), 0 2.6px 7.9px rgba(0, 0, 0, 0.3), inset 0 0.6px 0 rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .TimeLeft__C-time-digit::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 10%;
+      width: 80%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold-alpha), transparent);
+    }
+
+    .TimeLeft__C-time-digit::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 15%;
+      width: 1px;
+      height: 70%;
+      background: linear-gradient(transparent, rgba(255, 200, 55, 0.3), transparent);
+    }
+
+    .TimeLeft__C-time-digit span {
+      color: var(--gold);
+      font-size: 27.7px;
+      font-weight: 800;
+      text-shadow: 0 0 7.9px rgba(255, 200, 55, 0.6);
+    }
+
+    .TimeLeft__C-time-colon {
+      color: var(--gold);
+      font-size: 26.4px;
+      font-weight: 800;
+      animation: colonBlink 1s steps(1) infinite;
+      text-shadow: 0 0 6.6px var(--gold-alpha);
+    }
+
+    .TimeLeft__C-corner {
+      position: absolute;
+      width: 5.3px;
+      height: 5.3px;
+      background: var(--gold);
+      border-radius: 50%;
+      box-shadow: 0 0 5.3px 1.3px rgba(255, 200, 55, 0.6);
+      z-index: 2;
+    }
+
+    .tl {
+      top: 6.6px;
+      left: 6.6px;
+    }
+
+    .tr {
+      top: 6.6px;
+      right: 6.6px;
+    }
+
+    .bl {
+      bottom: 6.6px;
+      left: 6.6px;
+    }
+
+    .br {
+      bottom: 6.6px;
+      right: 6.6px;
+    }
+
+    .TimeLeft__C-rule {
+      position: absolute;
+      top: 14.5px;
+      left: 14.5px;
+      border: 1px solid rgba(255, 200, 55, 0.35);
+      border-radius: 40px;
+      padding: 5px 15px;
+      color: var(--gold);
+      font-size: 14px;
+      z-index: 3;
+    }
+
+    .TimeLeft__C-name {
+      position: absolute;
+      top: 47.5px;
+      left: 14.5px;
+      color: #fffb;
+      z-index: 3;
+    }
+
+    .TimeLeft__C-num {
+      position: absolute;
+      bottom: 15px;
+      left: 15px;
+      display: flex;
+      z-index: 3;
+    }
+
+    .TimeLeft__C-num div {
+      width: 33px;
+      height: 33px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      margin-right: 8px;
+    }
+
+    .TimeLeft__C-text {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      color: rgba(255, 255, 255, 0.7);
+      z-index: 3;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    /* ==================== BETTING CARD (Combined) ==================== */
+    .Betting__C {
+      position: relative;
+      width: 100%;
+      padding: 10px 15px;
+      border-radius: 13px;
+      background: var(--bg-glass);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 5px 30px rgba(0, 0, 0, 0.35);
+      overflow: hidden;
+      animation: staggerIn 0.4s ease-out both;
+      margin-top: 15px;
+      margin-left: auto;
+      margin-right: auto;
+      box-sizing: border-box;
+    }
+
+    /* --- Action Buttons & Reflections --- */
+    .glossy-btn {
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 600;
+      text-transform: capitalize;
+      cursor: pointer;
+    }
+
+    .glossy-btn::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -150%;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, var(--sweep-color), transparent);
+      animation: colorBtnSweep 3s ease-in-out infinite;
+    }
+
+    .Betting__C-head {
+      display: flex;
+      justify-content: space-between;
+      height: 46px;
+      margin-bottom: 15px;
+    }
+
+    .Betting__C-head div {
+      width: 127px;
+      font-size: 18px;
+      border-radius: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .Betting__C-head-g {
+      background: linear-gradient(135deg, #2d8a56, #40ad72);
+      border-radius: 0 13px !important;
+    }
+
+    .Betting__C-head-p {
+      background: linear-gradient(135deg, #8b2fc7, #b659fe);
+    }
+
+    .Betting__C-head-r {
+      background: linear-gradient(135deg, #d03840, #fd565c);
+      border-radius: 13px 0 !important;
+    }
+
+    /* --- ALL 0-9 NUMBERS GRID ==================== */
+    .Betting__C-numC {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      padding: 8px 13px;
+      border-radius: 13px;
+      margin-top: 15px;
+      background: linear-gradient(135deg, rgba(45, 21, 96, 0.4), rgba(26, 10, 46, 0.5));
+      min-height: 170px;
+      gap: 8px;
+    }
+
+    .Betting__C-numC div {
+      width: calc(20% - 8px);
+      height: 76px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      cursor: pointer;
+      margin-bottom: 5px;
+    }
+
+    /* Number images */
+    .n0 {
+      background-image: url("assets/ball_0.webp");
+    }
+
+    .n1 {
+      background-image: url("assets/ball_1.webp");
+    }
+
+    .n2 {
+      background-image: url("assets/ball_2.webp");
+    }
+
+    .n3 {
+      background-image: url("assets/ball_3.webp");
+    }
+
+    .n4 {
+      background-image: url("assets/ball_4.webp");
+    }
+
+    .n5 {
+      background-image: url("assets/ball_5.webp");
+    }
+
+    .n6 {
+      background-image: url("assets/ball_6.webp");
+    }
+
+    .n7 {
+      background-image: url("assets/ball_7.webp");
+    }
+
+    .n8 {
+      background-image: url("assets/ball_8.webp");
+    }
+
+    .n9 {
+      background-image: url("assets/ball_9.webp");
+    }
+
+    /* --- MULTIPLE SECTION --- */
+    .Betting__C-multiple {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 15px;
+      height: 45px;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .Betting__C-multiple-l {
+      position: relative;
+      width: 105px;
+      height: 45px;
+      line-height: 45px;
+      border: 1px solid var(--gold-alpha);
+      border-radius: 10px;
+      font-size: 18px;
+      color: var(--gold);
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .Betting__C-multiple-l::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 200, 55, 0.15), transparent);
+      animation: colorBtnSweep 4s ease-in-out infinite;
+    }
+
+    .Betting__C-multiple-r {
+      width: 48px;
+      height: 39px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.06);
+      color: rgba(255, 255, 255, 0.5);
+      border-radius: 10px;
+      font-size: 15px;
+      cursor: pointer;
+      flex: 1;
+    }
+
+    .Betting__C-multiple-r.active {
+      background: linear-gradient(135deg, var(--gold), #e8a820);
+      color: #1a0a2e;
+      font-weight: 600;
+      box-shadow: 0 2px 5px rgba(255, 200, 55, 0.3);
+    }
+
+    /* --- Foot Buttons --- */
+    .Betting__C-foot {
+      display: flex;
+      justify-content: center;
+      height: 47px;
+      margin-top: 15px;
+    }
+
+    .Betting__C-foot div {
+      width: 204px;
+      font-size: 21px;
+    }
+
+    .Betting__C-foot-b {
+      background: linear-gradient(135deg, var(--gold), #e8a820);
+      border-radius: 26px 0 0 26px;
+      color: #1a0a2e !important;
+    }
+
+    .Betting__C-foot-s {
+      background: linear-gradient(135deg, #2882dc, #46a0ff);
+      border-radius: 0 26px 26px 0;
+    }
+
+    /* Animations */
+    @keyframes colorBtnSweep {
+      0% {
+        transform: translateX(-150%);
+      }
+
+      100% {
+        transform: translateX(450%);
+      }
+    }
+
+    @keyframes staggerIn {
+      0% {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateY(0px);
+      }
+    }
+
+    @keyframes scanDown {
+
+      0%,
+      100% {
+        top: -40%;
+      }
+
+      50% {
+        top: 100%;
+      }
+    }
+
+    @keyframes colonBlink {
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0.2;
+      }
+    }
+
+    /* Small screen adjustments */
+    @media (max-width: 480px) {
+      .Betting__C-head div {
+        font-size: 16.5px;
+      }
+
+      .Betting__C-numC div {
+        height: 68px;
+      }
+
+      .TimeLeft__C-time-digit {
+        width: 34px;
+        height: 42px;
+      }
+
+      .TimeLeft__C-time-digit span {
+        font-size: 25px;
+      }
+    }
+
+    /* Extra small screens (Pixel 7, etc.) */
+    @media (max-width: 380px) {
+
+      /* Navbar adjustments */
+      .navbar {
+        padding: 0 8px;
+        height: 52px;
+        gap: 4px;
+      }
+
+      .back-btn {
+        width: 34px;
+        height: 34px;
+        flex-shrink: 0;
+      }
+
+      .back-btn svg {
+        width: 14px;
+        height: 14px;
+      }
+
+      .head-more-icon {
+        width: 24px;
+        height: 24px;
+        flex-shrink: 0;
+      }
+
+      .navbar__content-center {
+        width: 100%;
+        max-width: 180px;
+        height: 35px;
+        min-width: 150px;
+      }
+
+      .brand-logo-svg {
+        transform: scale(0.75);
+      }
+
+      /* Main container and wallet */
+      .Wallet__C {
+        padding: 12px 0;
+        margin-top: 8px;
+      }
+
+      .Wallet__C-balance {
+        padding: 15px 12px;
+      }
+
+      .Wallet__C-balance-l1 {
+        font-size: 22px;
+        gap: 8px;
+      }
+
+      .Wallet__C-balance-l1 img {
+        width: 24px;
+        height: 24px;
+      }
+
+      .Wallet__C-balance-l2 {
+        font-size: 14px;
+        margin-top: 6px;
+      }
+
+      .Wallet__C-balance-l3 {
+        margin-top: 15px;
+        gap: 10px;
+      }
+
+      .glass-btn {
+        height: 40px;
+        font-size: 16px;
+      }
+
+      .refresh {
+        width: 30px;
+        height: 30px;
+      }
+
+      /* Game tabs */
+      .GameList__C {
+        height: 100px;
+        margin: 6px auto 0;
+      }
+
+      .timer-icon {
+        width: 40px;
+        height: 40px;
+        margin-bottom: 6px;
+      }
+
+      .GameList__C-item div {
+        font-size: 13px;
+      }
+
+      /* Timer section */
+      .TimeLeft__C {
+        height: 110px;
+        margin: 12px auto;
+        border-radius: 10px;
+      }
+
+      .TimeLeft__C-rule {
+        top: 10px;
+        left: 10px;
+        padding: 4px 10px;
+        font-size: 12px;
+      }
+
+      .TimeLeft__C-name {
+        top: 40px;
+        left: 10px;
+        font-size: 12px;
+      }
+
+      .TimeLeft__C-time-digit {
+        width: 30px;
+        height: 36px;
+        margin: 0 2px;
+      }
+
+      .TimeLeft__C-time-digit span {
+        font-size: 22px;
+      }
+
+      .TimeLeft__C-time-colon {
+        font-size: 22px;
+      }
+
+      .TimeLeft__C-num div {
+        width: 28px;
+        height: 28px;
+        margin-right: 6px;
+      }
+
+      .TimeLeft__C-id {
+        bottom: 12px;
+        right: 12px;
+        font-size: 10px;
+      }
+
+      /* Betting card */
+      .Betting__C {
+        padding: 8px 12px;
+        margin-top: 12px;
+        border-radius: 10px;
+      }
+
+      .Betting__C-head {
+        height: 38px;
+        margin-bottom: 12px;
+      }
+
+      .Betting__C-head div {
+        width: 100px;
+        font-size: 15px;
+      }
+
+      .Betting__C-numC {
+        padding: 6px 10px;
+        margin-top: 12px;
+        min-height: 140px;
+        gap: 6px;
+      }
+
+      .Betting__C-numC div {
+        width: calc(20% - 6px);
+        height: 60px;
+        margin-bottom: 3px;
+      }
+
+      .Betting__C-multiple {
+        margin-top: 12px;
+        height: 38px;
+        gap: 4px;
+      }
+
+      .Betting__C-multiple-l {
+        width: 90px;
+        height: 38px;
+        line-height: 38px;
+        font-size: 15px;
+      }
+
+      .Betting__C-multiple-r {
+        width: 42px;
+        height: 34px;
+        font-size: 13px;
+      }
+
+      .Betting__C-foot {
+        height: 40px;
+        margin-top: 12px;
+      }
+
+      .Betting__C-foot div {
+        width: 175px;
+        font-size: 18px;
+      }
+
+      :root {
+        --row-height: 60px;
+        --dot-size: 18px;
+      }
+    }
+
+    /* ==================== RECORD & TRENDS SECTION ==================== */
+    .RecordNav__C {
+      position: relative;
+      width: 100%;
+      height: 52.8px;
+      margin: 15px auto;
+      padding: 4px;
+      border-radius: 11px;
+      border: 0.8px solid rgba(255, 200, 55, 0.1);
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.03), rgba(255, 200, 55, 0.02));
+      box-shadow: 0 1.3px 7.9px rgba(0, 0, 0, 0.15), inset 0 0.6px 0 rgba(255, 255, 255, 0.03);
+      display: flex;
+      overflow: visible;
+      box-sizing: border-box;
+    }
+
+    .RecordNav__C::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 0.65px;
+      background: linear-gradient(90deg, transparent 10%, rgba(255, 200, 55, 0.15) 50%, transparent 90%);
+    }
+
+    .RecordNav__C div {
+      flex: 1;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14.5px;
+      color: rgba(255, 255, 255, 0.45);
+      border-radius: 9px;
+      cursor: pointer;
+      transition: all 0.3s;
+      position: relative;
+    }
+
+    .RecordNav__C div.active {
+      color: #ffd54f;
+      font-weight: 700;
+      background: linear-gradient(135deg, rgba(255, 200, 55, 0.18), rgba(255, 180, 30, 0.08));
+      border: 0.8px solid rgba(255, 200, 55, 0.35);
+      box-shadow: 0 0 10.5px rgba(255, 200, 55, 0.15), inset 0 0.6px 0 rgba(255, 255, 255, 0.08);
+    }
+
+    .RecordNav__C div.active::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 15%;
+      width: 70%;
+      height: 0.65px;
+      background: linear-gradient(90deg, transparent, rgba(255, 200, 55, 0.5), transparent);
+    }
+
+    .RecordNav__C div.active::after {
+      content: "";
+      position: absolute;
+      bottom: -1px;
+      left: 18%;
+      width: 64%;
+      height: 1.3px;
+      background: linear-gradient(90deg,
+          transparent 12%,
+          rgba(255, 200, 55, 0.85) 35%,
+          rgba(255, 200, 55, 0.95) 50%,
+          rgba(255, 200, 55, 0.85) 65%,
+          transparent 88%);
+      box-shadow: 0 0 4px rgba(255, 200, 55, 0.6);
+      border-radius: 2px;
+    }
+
+    .GameRecord__C,
+    .Trend__C {
+      width: 100%;
+      margin: 0 auto;
+      display: none;
+    }
+
+    .GameRecord__C.active,
+    .Trend__C.active {
+      display: block;
+    }
+
+    .GameRecord__C-head,
+    .Trend__C-head {
+      position: relative;
+      height: 55px;
+      display: flex;
+      align-items: center;
+      background: linear-gradient(135deg, rgba(255, 200, 55, 0.08), rgba(255, 255, 255, 0.04) 50%, rgba(255, 200, 55, 0.06));
+      border-radius: 10px;
+      color: #ffd54f;
+      font-weight: 700;
+      font-size: 15.8px;
+      border: 1px solid rgba(255, 200, 55, 0.15);
+      box-sizing: border-box;
+      margin-bottom: 10px;
+    }
+
+    .GameRecord__C-head::before,
+    .Trend__C-head::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 6px;
+      width: 2.6px;
+      height: 41px;
+      background: linear-gradient(#ffd54f, #e8a820);
+      border-radius: 2px 0 0 2px;
+    }
+
+    .GameRecord__C-body {
+      background: linear-gradient(rgba(255, 255, 255, 0.024), rgba(255, 255, 255, 0.01));
+      border-radius: 10px;
+      overflow: hidden;
+      color: #fff;
+    }
+
+    .Trend__C-head::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 0.6px;
+      background: linear-gradient(90deg, transparent 5%, rgba(255, 200, 55, 0.25) 50%, transparent 95%);
+    }
+
+    .van-row {
+      display: flex;
+      width: 100%;
+      align-items: center;
+      min-height: 50px;
+      background: linear-gradient(rgba(255, 255, 255, 0.024), rgba(255, 255, 255, 0.01));
+      border-bottom: 0.5px solid rgba(255, 255, 255, 0.05);
+      padding: 0 12px;
+      box-sizing: border-box;
+    }
+
+    .van-row:last-child {
+      border-bottom: none;
+    }
+
+    .van-col--8 {
+      width: 33.3%;
+      text-align: center;
+    }
+
+    .van-col--5 {
+      width: 20.8%;
+      text-align: center;
+    }
+
+    .van-col--6 {
+      width: 25.1%;
+      text-align: center;
+    }
+
+    .van-col--16 {
+      width: 66.6%;
+      text-align: center;
+    }
+
+    .GameRecord__C-body-num {
+      font-size: 18px;
+      font-weight: 900;
+    }
+
+    .num-red {
+      color: #fd565c;
+    }
+
+    .num-green {
+      color: #40ad72;
+    }
+
+    .num-mixed-5 {
+      background: linear-gradient(#40ad72 51%, #b659fe 51%);
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .num-mixed-0 {
+      background: linear-gradient(#fd565c 51%, #b659fe 51%);
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .GameRecord__C-origin {
+      display: flex;
+      justify-content: center;
+      gap: 4px;
+    }
+
+    .GameRecord__C-origin-I {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    .Trend__C-body1 {
+      background: linear-gradient(rgba(255, 255, 255, 0.024), rgba(255, 255, 255, 0.01));
+      padding-bottom: 20px;
+      color: rgba(255, 255, 255, 0.75);
+      font-size: 15.8px;
+      border-radius: 10px 10px 0 0;
+    }
+
+    .Trend__C-body1-line {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 15px 0 13px;
+      font-size: 14.2px;
+    }
+
+    .Trend__C-body1-line:not(:first-child) {
+      margin-top: 12px;
+    }
+
+    .Trend__C-body1-line-num {
+      display: flex;
+      gap: 8px;
+      color: #ffc837;
+    }
+
+    .lottery .Trend__C-body1-line-num div {
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    .Trend__C-body2 {
+      position: relative;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      background: linear-gradient(rgba(255, 255, 255, 0.024), rgba(255, 255, 255, 0.01));
+      border-radius: 0 0 10px 10px;
+      overflow: hidden;
+    }
+
+    .Trend__C-body2>div {
+      height: var(--row-height, 72px);
+      display: flex;
+      align-items: center;
+      padding: 0 10px;
+      box-sizing: border-box;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      z-index: 2;
+    }
+
+    .Trend__C-body2>div:nth-child(even) {
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .Trend__C-body2>div:last-child {
+      border-bottom: none;
+    }
+
+    .Trend__C-body2 .van-row {
+      display: flex;
+      width: 100%;
+      align-items: center;
+      background: transparent;
+      border: none;
+      padding: 0;
+      min-height: auto;
+    }
+
+    .Trend__C-body2 .van-col--8 {
+      width: 30%;
+      color: #999;
+      font-size: 13px;
+    }
+
+    .Trend__C-body2 .van-col--16 {
+      width: 70%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+    }
+
+    .Trend__C-body2-Num {
+      display: flex;
+      flex: 1;
+      justify-content: space-between;
+      padding-right: 15px;
+    }
+
+    .Trend__C-body2-Num-item {
+      width: var(--dot-size, 22px);
+      height: var(--dot-size, 22px);
+      line-height: var(--dot-size, 22px);
+      text-align: center;
+      border-radius: 50%;
+      font-size: 12px;
+      color: #666;
+      position: relative;
+    }
+
+    .action1,
+    .action3,
+    .action7,
+    .action9 {
+      background: #5cba47;
+      color: #fff !important;
+    }
+
+    .action2,
+    .action4,
+    .action6,
+    .action8 {
+      background: #fb4e4e;
+      color: #fff !important;
+    }
+
+    .action0 {
+      background: linear-gradient(135deg, #fb4e4e 50%, #eb43dd 50%);
+      color: #fff !important;
+    }
+
+    .action5 {
+      background: linear-gradient(135deg, #5cba47 50%, #eb43dd 50%);
+      color: #fff !important;
+    }
+
+    .Trend__C-body2-Num-BS {
+      width: var(--dot-size, 22px);
+      height: var(--dot-size, 22px);
+      line-height: var(--dot-size, 22px);
+      text-align: center;
+      border-radius: 50%;
+      font-size: 12px;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    .isB {
+      background: #f3bd14;
+    }
+
+    .isS {
+      background: #6da7f4;
+    }
+
+    /* Dynamic SVG Line Layer */
+    .line-overlay {
+      position: absolute;
+      top: 0;
+      left: 30%;
+      width: 70%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .trend-path {
+      fill: none;
+      stroke: #ffc837;
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      opacity: 0.9;
+      vector-effect: non-scaling-stroke;
+      filter: drop-shadow(0 0 2px rgba(255, 200, 55, 0.4));
+    }
+
+    /* My Game Record Styles */
+    .MyGameRecord__C {
+      width: 100%;
+      margin: 0 auto;
+      display: block;
+      background: linear-gradient(rgba(255, 255, 255, 0.024), rgba(255, 255, 255, 0.01));
+      border-radius: 10px;
+    }
+
+    .MyGameRecord__C-head {
+      display: flex;
+      justify-content: flex-end;
+      padding: 0 12px;
+      height: 45px;
+      align-items: center;
+      background: linear-gradient(135deg, rgba(255, 200, 55, 0.08), rgba(255, 255, 255, 0.04) 50%, rgba(255, 200, 55, 0.06));
+      border-radius: 10px;
+      border: 1px solid rgba(255, 200, 55, 0.15);
+      margin-bottom: 10px;
+      box-sizing: border-box;
+    }
+
+    .MyGameRecord__C-head-moreB {
+      color: var(--muted-text);
+      border: 0.8px solid rgba(255, 200, 55, 0.2);
+      padding: 4px 12px;
+      border-radius: 15px;
+      font-size: 12px;
+      cursor: pointer;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .MyGameRecord__C-body {
+      padding: 0 12px;
+    }
+
+    .MyGameRecordList__C-item {
+      display: flex;
+      align-items: center;
+      padding: 14px 0;
+      border-bottom: 0.5px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .MyGameRecordList__C-item:last-child {
+      border-bottom: none;
+    }
+
+    .MyGameRecordList__C-item-l {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      margin-right: 12px;
+      flex-shrink: 0;
+    }
+
+    .MyGameRecordList__C-item-l-red {
+      background: var(--primary-red);
+    }
+
+    .MyGameRecordList__C-item-m {
+      flex: 1;
+    }
+
+    .MyGameRecordList__C-item-m-top {
+      font-size: 14px;
+      margin-bottom: 4px;
+      color: #fff;
+      font-weight: 500;
+    }
+
+    .MyGameRecordList__C-item-m-bottom {
+      font-size: 11px;
+      color: var(--muted-text);
+    }
+
+    .MyGameRecordList__C-item-r {
+      text-align: right;
+    }
+
+    .MyGameRecordList__C-item-r div {
+      font-size: 13px;
+      color: var(--red);
+      margin-bottom: 2px;
+    }
+
+    .MyGameRecordList__C-item-r span {
+      font-size: 15px;
+      font-weight: bold;
+      color: var(--red);
+    }
+
+    .MyGameRecord__C-foot {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 15px 0;
+      gap: 20px;
+    }
+
+    .MyGameRecord__C-foot-page {
+      font-size: 14px;
+      color: #fff;
+      min-width: 40px;
+      text-align: center;
+    }
+
+    .MyGameRecord__C-foot-previous,
+    .MyGameRecord__C-foot-next {
+      width: 36px;
+      height: 36px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 0.8px solid rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .MyGameRecord__C-foot-previous:active,
+    .MyGameRecord__C-foot-next:active {
+      transform: scale(0.9);
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .MyGameRecord__C-foot-previous.disabled,
+    .MyGameRecord__C-foot-next.disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    .icon-arrow {
+      width: 20px;
+      height: 20px;
+      fill: #fff;
+    }
+
+    /* ── BETTING POPUP STYLES ── */
+    .bet-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      z-index: 2000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .bet-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .bet-popup {
+      width: 100%;
+      max-width: 460px;
+      background: #1a0e30;
+      box-shadow: 0 -8px 40px rgba(0, 0, 0, 0.7);
+      border-radius: 16px 16px 0 0;
+      overflow: hidden;
+      transform: translateY(100%);
+      transition: transform 0.3s ease;
+    }
+
+    .bet-overlay.active .bet-popup {
+      transform: translateY(0);
+    }
+
+    .popup-head {
+      width: 100%;
+      padding: 14px 0 28px;
+      text-align: center;
+      clip-path: polygon(0% 0%, 100% 0%, 100% 70%, 50% 100%, 0% 70%);
+    }
+
+    .popup-head-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+
+    .popup-head-bar {
+      width: 310px;
+      height: 32px;
+      line-height: 32px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.365);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 0.8px solid rgba(255, 255, 255, 0.2);
+      border-radius: 7px;
+      font-size: 16px;
+      font-weight: 500;
+      color: #fff;
+      text-align: center;
+    }
+
+    .popup-head-bar span:last-child {
+      margin-left: 14px;
+      font-weight: 700;
+    }
+
+    .popup-body {
+      padding: 14px 16px 12px;
+    }
+
+    .body-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 15px;
+      color: rgba(255, 255, 255, 0.8);
+      line-height: 36px;
+      margin-top: 10px;
+    }
+
+    .body-line:first-child {
+      margin-top: 0;
+    }
+
+    .body-label {
+      white-space: nowrap;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .chip-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-left: 10px;
+      flex: 1;
+      justify-content: flex-end;
+    }
+
+    .chip {
+      background: rgba(255, 255, 255, 0.07);
+      color: rgba(255, 255, 255, 0.6);
+      padding: 0 10px;
+      height: 34px;
+      line-height: 34px;
+      border-radius: 5px;
+      min-width: 44px;
+      text-align: center;
+      cursor: pointer;
+      font-size: 13px;
+      border: none;
+    }
+
+    .qty-ctrl {
+      display: flex;
+      align-items: center;
+      margin-left: 10px;
+    }
+
+    .qty-btn {
+      width: 34px;
+      height: 34px;
+      line-height: 34px;
+      border-radius: 4px;
+      text-align: center;
+      font-weight: 700;
+      color: #fff;
+      cursor: pointer;
+      font-size: 18px;
+      border: none;
+    }
+
+    .qty-input {
+      width: 70px;
+      height: 34px;
+      background: #000;
+      margin: 0 8px;
+      border-radius: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #fff;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    .agree-row {
+      justify-content: flex-start !important;
+      gap: 12px;
+      margin-top: 15px;
+      align-items: center !important;
+    }
+
+    .agree-check {
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      border: 1.5px solid rgba(255, 255, 255, 0.3);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+
+    .agree-check.checked {
+      background-image: url('assets/presale_agree.png');
+      border: none;
+    }
+
+    .agree-text {
+      font-size: 15px;
+      color: rgba(255, 255, 255, 0.5);
+      line-height: 1;
+    }
+
+    .agree-link {
+      font-size: 13px;
+      line-height: 36px;
+      margin-left: 4px;
+      cursor: pointer;
+    }
+
+    .popup-foot {
+      display: flex;
+      width: 100%;
+      height: 52px;
+      background: rgb(13, 6, 24);
+      line-height: 52px;
+      text-align: center;
+    }
+
+    .foot-cancel {
+      flex: 1;
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 16px;
+      cursor: pointer;
+      background: rgb(13, 6, 24);
+      border: none;
+    }
+
+    .foot-submit {
+      flex: 2;
+      color: #fff;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+    }
+
+    /* Gradient Classes */
+    .grad-green {
+      background: linear-gradient(90deg, rgb(63, 170, 112), rgb(71, 186, 124));
+    }
+
+    .grad-red {
+      background: linear-gradient(90deg, rgb(252, 80, 80), rgb(255, 100, 108));
+    }
+
+    .grad-violet {
+      background: linear-gradient(90deg, rgb(182, 88, 254), rgb(205, 116, 255));
+    }
+
+    .grad-split {
+      background: linear-gradient(135deg, rgb(251, 78, 78) 50%, rgb(182, 88, 254) 50%);
+    }
+
+    .grad-big {
+      background: linear-gradient(90deg, rgb(230, 160, 0), rgb(255, 190, 30));
+    }
+
+    .grad-small {
+      background: linear-gradient(90deg, rgb(40, 130, 220), rgb(70, 160, 255));
+    }
+
+    /* ── COUNTDOWN OVERLAY STYLES ── */
+    .Betting__C-mark {
+      position: absolute;
+      inset: 0;
+      background: rgba(13, 6, 24, 0.95);
+      background-image: radial-gradient(rgba(45, 21, 96, 0.4) 0%, transparent 70%);
+      backdrop-filter: blur(8.64px);
+      -webkit-backdrop-filter: blur(8.64px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 14px;
+      overflow: hidden;
+      z-index: 100;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .Betting__C-mark.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .mark-rays {
+      position: absolute;
+      width: 420px;
+      height: 420px;
+      pointer-events: none;
+      background-image: conic-gradient(transparent 0deg, rgba(255, 200, 55, 0.04) 5deg, transparent 10deg,
+          transparent 50deg, rgba(168, 120, 255, 0.03) 55deg, transparent 60deg,
+          transparent 110deg, rgba(255, 200, 55, 0.04) 115deg, transparent 120deg,
+          transparent 170deg, rgba(168, 120, 255, 0.03) 175deg, transparent 180deg,
+          transparent 230deg, rgba(255, 200, 55, 0.04) 235deg, transparent 240deg,
+          transparent 290deg, rgba(168, 120, 255, 0.03) 295deg, transparent 300deg,
+          transparent 360deg);
+      animation: raysRotate 20s linear infinite;
+    }
+
+    .mark-pulse {
+      position: absolute;
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      border: 0.8px solid rgba(255, 200, 55, 0.5);
+      animation: pulseExpand 3s ease-out infinite;
+      opacity: 0.7;
+      pointer-events: none;
+    }
+
+    .pulse2 {
+      animation-delay: 1s;
+    }
+
+    .pulse3 {
+      animation-delay: 2s;
+    }
+
+    .mark-ring {
+      position: absolute;
+      border-radius: 50%;
+      box-sizing: border-box;
+      border: 1.6px solid transparent;
+      border-top-color: rgba(255, 200, 55, 0.9);
+      border-right-color: rgba(255, 200, 55, 0.2);
+      width: 220px;
+      height: 220px;
+      box-shadow: 0 0 20px rgba(255, 200, 55, 0.15);
+      animation: ringRotate 3s linear infinite;
+      pointer-events: none;
+    }
+
+    .ring2 {
+      width: 180px;
+      height: 180px;
+      border-width: 0.8px;
+      border-top-color: rgba(168, 120, 255, 0.8);
+      border-left-color: rgba(168, 120, 255, 0.25);
+      border-right-color: transparent;
+      border-bottom-color: transparent;
+      box-shadow: 0 0 16px rgba(168, 120, 255, 0.12);
+      animation: ringReverse 4s linear infinite;
+    }
+
+    .mark-nums {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .mark-digit {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 60px;
+      height: 80px;
+      background: rgba(255, 200, 55, 0.06);
+      border: 0.8px solid rgba(255, 200, 55, 0.25);
+      border-radius: 10px;
+      font-size: 64px;
+      font-weight: 900;
+      color: rgb(255, 200, 55);
+      text-shadow: 0 0 18px rgba(255, 200, 55, 0.6);
+      margin: 0 4px;
+      line-height: 1;
+    }
+
+    .mark-sep {
+      font-size: 40px;
+      font-weight: 900;
+      color: rgb(255, 200, 55);
+      text-shadow: 0 0 12px rgba(255, 200, 55, 0.6);
+      margin: 0 2px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .mark-label {
+      position: absolute;
+      bottom: 20px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 11px;
+      font-weight: 600;
+      color: rgba(255, 200, 55, 0.45);
+      letter-spacing: 6px;
+      text-shadow: 0 0 6px rgba(255, 200, 55, 0.2);
+      z-index: 2;
+    }
+
+    @keyframes ringRotate {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes ringReverse {
+      from {
+        transform: rotate(360deg);
+      }
+
+      to {
+        transform: rotate(0deg);
+      }
+    }
+
+    @keyframes raysRotate {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes pulseExpand {
+      0% {
+        transform: scale(1);
+        opacity: 0.7;
+      }
+
+      100% {
+        transform: scale(1.6);
+        opacity: 0;
+      }
+    }
+
+    /* ── HOW TO PLAY POPUP STYLES ── */
+    .how-to-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      z-index: 3000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .how-to-overlay.active {
+      display: flex;
+    }
+
+    .how-to-popup {
+      width: 264.14px;
+      max-width: 343.2px;
+      background-color: #1a0e30;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5);
+      animation: staggerIn 0.3s ease-out;
+    }
+
+    .how-to-head {
+      height: 45px;
+      line-height: 45px;
+      text-align: center;
+      font-size: 15.01px;
+      font-weight: 600;
+      color: #ffc837;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .how-to-body {
+      padding: 15.01px;
+      max-height: 300.16px;
+      overflow-y: auto;
+      box-sizing: border-box;
+      font-size: 12.01px;
+      color: rgba(255, 255, 255, 0.8);
+      line-height: 1.5;
+    }
+
+    .how-to-body::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .how-to-body::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 10px;
+    }
+
+    .how-to-body div {
+      display: block;
+      padding: 0;
+      margin: 0;
+    }
+
+    .how-to-body p {
+      margin: 0 0 10px 0;
+    }
+
+    .how-to-body p:last-child {
+      margin-bottom: 0;
+    }
+
+    .how-to-body b {
+      color: #ffffff;
+      font-weight: 700;
+    }
+
+    .how-to-foot {
+      padding: 15px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .how-to-foot-btn {
+      width: 158px;
+      height: 35px;
+      line-height: 35px;
+      text-align: center;
+      font-size: 14.01px;
+      font-weight: 700;
+      border-radius: 20px;
+      background: linear-gradient(135deg, #ffc837 0%, #e8a820 100%);
+      color: rgb(26, 10, 46);
+      cursor: pointer;
+      text-transform: lowercase;
+    }
+    /* ── PRE-SALE RULES POPUP STYLES ── */
+    .presale-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      z-index: 4000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .presale-overlay.active {
+      display: flex;
+    }
+
+    .presale-popup {
+      width: 264.14px;
+      max-width: 343.2px;
+      background-color: #1a0e30;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5);
+      animation: staggerIn 0.3s ease-out;
+    }
+
+    .presale-head {
+      height: 45px;
+      line-height: 45px;
+      text-align: center;
+      font-size: 15.01px;
+      font-weight: 600;
+      color: #ffd54f;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .presale-body {
+      padding: 15.01px;
+      max-height: 300.16px;
+      overflow-y: auto;
+      font-size: 12.01px;
+      color: rgba(255, 255, 255, 0.8);
+      line-height: 1.5;
+      text-align: justify;
+    }
+
+    .presale-body::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .presale-body::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 10px;
+    }
+
+    .presale-foot {
+      padding: 15px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .presale-foot-btn {
+      width: 158px;
+      height: 35px;
+      line-height: 35px;
+      text-align: center;
+      font-size: 14.01px;
+      font-weight: 700;
+      border-radius: 20px;
+      background: linear-gradient(135deg, #ffd54f 0%, #e8a820 100%);
+      color: rgb(26, 10, 46);
+      cursor: pointer;
+      text-transform: capitalize;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="navbar__content-left">
+      <div class="back-btn">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <path d="M11.25 3.75L5.25 9L11.25 14.25" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"
+            stroke-linejoin="round"></path>
+        </svg>
+      </div>
+    </div>
+
+    <div class="navbar__content-center">
+      <svg class="brand-logo-svg" viewBox="0 0 388 72" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="blCrown" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#fff1b8"></stop>
+            <stop offset="50%" stop-color="#e8a735"></stop>
+            <stop offset="100%" stop-color="#c68a1d"></stop>
+          </linearGradient>
+          <linearGradient id="blText" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#fff8e1"></stop>
+            <stop offset="20%" stop-color="#ffd54f"></stop>
+            <stop offset="45%" stop-color="#e8a735"></stop>
+            <stop offset="55%" stop-color="#a06a10"></stop>
+            <stop offset="75%" stop-color="#e8a735"></stop>
+            <stop offset="100%" stop-color="#fff1b8"></stop>
+          </linearGradient>
+          <filter id="blShadow" x="-10%" y="-10%" width="130%" height="140%">
+            <feDropShadow dx="0" dy="2" stdDeviation="1.5" flood-color="rgba(0,0,0,0.35)"></feDropShadow>
+          </filter>
+          <linearGradient id="blLine" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="rgba(232,167,53,0)"></stop>
+            <stop offset="50%" stop-color="#ffd54f"></stop>
+            <stop offset="100%" stop-color="rgba(232,167,53,0)"></stop>
+          </linearGradient>
+        </defs>
+        <rect x="10" width="368" y="61" height="1.5" rx="0.75" fill="url(#blLine)" opacity="0.6"></rect>
+        <text x="4" y="50" font-size="46" font-weight="900" fill="url(#blCrown)" font-family="serif">♛</text>
+        <text x="50" y="48" font-size="38" font-weight="900" letter-spacing="4" fill="url(#blText)"
+          filter="url(#blShadow)" font-family="Georgia, serif">1xKING</text>
+      </svg>
+    </div>
+
+    <div class="navbar__content-right">
+      <div class="WinGo__C-head-more">
+        <div class="head-more-icon icon-service"></div>
+        <div class="head-more-icon icon-more"></div>
+        <div class="head-more-icon" style="background-image:url('assets/nav_cs.png');"></div>
+        <div class="head-more-icon" style="background-image:url('assets/nav_sound.png');"></div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="main-container">
+
+    <!-- Wallet Balance Card -->
+    <div class="Wallet__C">
+      <div class="Wallet__C-balance">
+        <div class="Wallet__C-balance-l1">
+          <img src="assets/wallet_bal_icon.png" alt="Wallet Icon">
+          <div>₹0.90</div>
+          <div class="refresh">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFC837" stroke-width="2.5">
+              <path d="M21 12a9 9 0 0 1-15.3 6.4M3 12a9 9 0 0 1 15.3-6.4M21 3v6h-6M3 21v-6h6" />
+            </svg>
+          </div>
+        </div>
+        <div class="Wallet__C-balance-l2">wallet balance</div>
+        <div class="Wallet__C-balance-l3">
+          <div class="glass-btn btn-withdraw">Withdraw</div>
+          <div class="glass-btn btn-deposit">Deposit</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Game List Tabs (Timer Modes) -->
+    <div class="GameList__C" id="gameList">
+      <div class="GameList__C-item active" data-time="30s">
+        <img class="timer-icon" src="assets/timer_act.png" alt="30s">
+        <div>Win Go<br>30s</div>
+      </div>
+      <div class="GameList__C-item" data-time="1Min">
+        <img class="timer-icon" src="assets/timer_nonact.png" alt="1Min">
+        <div>Win Go<br>1Min</div>
+      </div>
+      <div class="GameList__C-item" data-time="3Min">
+        <img class="timer-icon" src="assets/timer_nonact.png" alt="3Min">
+        <div>Win Go<br>3Min</div>
+      </div>
+      <div class="GameList__C-item" data-time="5Min">
+        <img class="timer-icon" src="assets/timer_nonact.png" alt="5Min">
+        <div>Win Go<br>5Min</div>
+      </div>
+    </div>
+
+    <!-- Time Left Timer Section -->
+    <div class="TimeLeft__C">
+      <div class="TimeLeft__C-scanline"></div>
+      <div class="TimeLeft__C-corner tl"></div>
+      <div class="TimeLeft__C-corner tr"></div>
+      <div class="TimeLeft__C-corner bl"></div>
+      <div class="TimeLeft__C-corner br"></div>
+
+      <div class="TimeLeft__C-rule" onclick="toggleHowTo(true)">How to play</div>
+      <div class="TimeLeft__C-name">Win Go 30s</div>
+
+      <div class="TimeLeft__C-num">
+        <div class="n2"></div>
+        <div class="n9"></div>
+        <div class="n0"></div>
+        <div class="n1"></div>
+        <div class="n9"></div>
+      </div>
+
+      <div class="TimeLeft__C-text">Time Remaining</div>
+
+      <div style="position: absolute; top: 43px; right: 15px; display: flex; align-items: center; z-index: 3;">
+        <div class="TimeLeft__C-time-digit"><span>0</span></div>
+        <div class="TimeLeft__C-time-digit"><span>0</span></div>
+        <div class="TimeLeft__C-time-colon">:</div>
+        <div class="TimeLeft__C-time-digit"><span>1</span></div>
+        <div class="TimeLeft__C-time-digit"><span>6</span></div>
+      </div>
+
+      <div class="TimeLeft__C-id"
+        style="position: absolute; bottom: 15px; right: 15px; color: #fffb; font-size: 12px; z-index: 3;">20260425302446
+      </div>
+    </div>
+
+    <!-- Betting Card (Combined) -->
+    <div class="Betting__C">
+      <!-- Last 5 Seconds Countdown Overlay -->
+      <div class="Betting__C-mark" id="countdownOverlay">
+        <div class="mark-rays"></div>
+        <div class="mark-pulse"></div>
+        <div class="mark-pulse pulse2"></div>
+        <div class="mark-pulse pulse3"></div>
+        <div class="mark-ring"></div>
+        <div class="mark-ring ring2"></div>
+        <div class="mark-nums">
+          <div class="mark-digit" id="cdDigit1">0</div>
+          <div class="mark-sep">:</div>
+          <div class="mark-digit" id="cdDigit2">5</div>
+        </div>
+        <div class="mark-label">COUNTDOWN</div>
+      </div>
+
+      <!-- Header -->
+      <div class="Betting__C-head">
+        <div class="Betting__C-head-g glossy-btn" onclick="openPopup('green')">green</div>
+        <div class="Betting__C-head-p glossy-btn" onclick="openPopup('violet')">purple</div>
+        <div class="Betting__C-head-r glossy-btn" onclick="openPopup('red')">red</div>
+      </div>
+
+      <!-- Number Grid -->
+      <div class="Betting__C-numC">
+        <div class="n0" onclick="openPopup(0)"></div>
+        <div class="n1" onclick="openPopup(1)"></div>
+        <div class="n2" onclick="openPopup(2)"></div>
+        <div class="n3" onclick="openPopup(3)"></div>
+        <div class="n4" onclick="openPopup(4)"></div>
+        <div class="n5" onclick="openPopup(5)"></div>
+        <div class="n6" onclick="openPopup(6)"></div>
+        <div class="n7" onclick="openPopup(7)"></div>
+        <div class="n8" onclick="openPopup(8)"></div>
+        <div class="n9" onclick="openPopup(9)"></div>
+      </div>
+
+      <!-- Multiplier bar -->
+      <div class="Betting__C-multiple">
+        <div class="Betting__C-multiple-l">Random Bet</div>
+        <div class="Betting__C-multiple-r active">X1</div>
+        <div class="Betting__C-multiple-r">X5</div>
+        <div class="Betting__C-multiple-r">X10</div>
+        <div class="Betting__C-multiple-r">X20</div>
+        <div class="Betting__C-multiple-r">X50</div>
+        <div class="Betting__C-multiple-r">X100</div>
+      </div>
+
+      <!-- Footer -->
+      <div class="Betting__C-foot">
+        <div class="Betting__C-foot-b glossy-btn" onclick="openPopup('big')">Big</div>
+        <div class="Betting__C-foot-s glossy-btn" onclick="openPopup('small')">small</div>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="RecordNav__C">
+      <div class="active" data-tab="game">Game Record</div>
+      <div data-tab="trend">Chart Trends</div>
+      <div data-tab="my">My Game Record</div>
+    </div>
+
+    <!-- Game Record -->
+    <div id="game" class="GameRecord__C active">
+      <div class="GameRecord__C-head">
+        <div class="van-row" style="background: transparent; border-bottom: 1px solid rgba(255,200,55,0.15);">
+          <div class="van-col--8">Period</div>
+          <div class="van-col--5">Number</div>
+          <div class="van-col--5">Size</div>
+          <div class="van-col--6">Color</div>
+        </div>
+      </div>
+
+      <div class="GameRecord__C-body">
+        <div class="van-row">
+          <div class="van-col--8">20260425302540</div>
+          <div class="van-col--5">
+            <div class="GameRecord__C-body-num num-red">6</div>
+          </div>
+          <div class="van-col--5">Big</div>
+          <div class="van-col--6">
+            <div class="GameRecord__C-origin">
+              <div class="GameRecord__C-origin-I" style="background:var(--red)"></div>
+            </div>
+          </div>
+        </div>
+        <div class="van-row">
+          <div class="van-col--8">20260425302534</div>
+          <div class="van-col--5">
+            <div class="GameRecord__C-body-num num-green">7</div>
+          </div>
+          <div class="van-col--5">Big</div>
+          <div class="van-col--6">
+            <div class="GameRecord__C-origin">
+              <div class="GameRecord__C-origin-I" style="background:var(--green)"></div>
+            </div>
+          </div>
+        </div>
+        <div class="van-row">
+          <div class="van-col--8">20260425302530</div>
+          <div class="van-col--5">
+            <div class="GameRecord__C-body-num num-mixed-0">0</div>
+          </div>
+          <div class="van-col--5">small</div>
+          <div class="van-col--6">
+            <div class="GameRecord__C-origin">
+              <div class="GameRecord__C-origin-I" style="background:var(--red)"></div>
+              <div class="GameRecord__C-origin-I" style="background:var(--violet)"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="MyGameRecord__C-foot">
+        <div class="MyGameRecord__C-foot-previous disabled">
+          <svg class="icon-arrow" viewBox="0 0 24 24">
+            <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
+          </svg>
+        </div>
+        <div class="MyGameRecord__C-foot-page">1/1</div>
+        <div class="MyGameRecord__C-foot-next disabled">
+          <svg class="icon-arrow" viewBox="0 0 24 24">
+            <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chart Trends -->
+    <div id="trend" class="Trend__C">
+      <div class="Trend__C-head">
+        <div class="van-row" style="background: transparent; border-bottom: 1px solid rgba(255,200,55,0.15);">
+          <div class="van-col--8">Issue</div>
+          <div class="van-col--16">Number</div>
+        </div>
+      </div>
+
+      <div class="Trend__C-body1">
+        <div class="Trend__C-body1-line" style="color:#fff; font-weight:600;">Betting Assistant (last 100 issues)</div>
+
+        <div class="Trend__C-body1-line lottery">
+          <div>Winning numbers</div>
+          <div class="Trend__C-body1-line-num">
+            <div>0</div>
+            <div>1</div>
+            <div>2</div>
+            <div>3</div>
+            <div>4</div>
+            <div>5</div>
+            <div>6</div>
+            <div>7</div>
+            <div>8</div>
+            <div>9</div>
+          </div>
+        </div>
+        <div class="Trend__C-body1-line">
+          <div>Missing</div>
+          <div class="Trend__C-body1-line-num">
+            <span>7</span><span>6</span><span>0</span><span>11</span><span>29</span><span>4</span><span>51</span><span>13</span><span>1</span><span>2</span>
+          </div>
+        </div>
+        <div class="Trend__C-body1-line">
+          <div>Avg Missing</div>
+          <div class="Trend__C-body1-line-num">
+            <span>13</span><span>8</span><span>5</span><span>15</span><span>11</span><span>7</span><span>13</span><span>10</span><span>10</span><span>6</span>
+          </div>
+        </div>
+        <div class="Trend__C-body1-line">
+          <div>Frequency</div>
+          <div class="Trend__C-body1-line-num">
+            <span>7</span><span>11</span><span>17</span><span>5</span><span>8</span><span>16</span><span>6</span><span>8</span><span>8</span><span>14</span>
+          </div>
+        </div>
+        <div class="Trend__C-body1-line">
+          <div>Max Continued</div>
+          <div class="Trend__C-body1-line-num">
+            <span>1</span><span>2</span><span>2</span><span>1</span><span>2</span><span>2</span><span>1</span><span>1</span><span>1</span><span>2</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Trend Body 2 -->
+      <div class="Trend__C-body2">
+        <!-- Dynamic SVG Line -->
+        <svg class="line-overlay">
+          <path class="trend-path" d="" />
+        </svg>
+
+        <!-- Rows will be added by JavaScript -->
+      </div>
+
+      <div class="MyGameRecord__C-foot">
+        <div class="MyGameRecord__C-foot-previous disabled">
+          <svg class="icon-arrow" viewBox="0 0 24 24">
+            <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
+          </svg>
+        </div>
+        <div class="MyGameRecord__C-foot-page">1/1</div>
+        <div class="MyGameRecord__C-foot-next disabled">
+          <svg class="icon-arrow" viewBox="0 0 24 24">
+            <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- My Game Record -->
+    <div id="my" class="GameRecord__C">
+      <div class="MyGameRecord__C">
+        <div class="MyGameRecord__C-head">
+          <div class="MyGameRecord__C-head-moreB">more</div>
+        </div>
+
+        <div class="MyGameRecord__C-body">
+          <div class="MyGameRecordList__C">
+            <!-- Record Item 1 -->
+            <div class="MyGameRecordList__C-item">
+              <div class="MyGameRecordList__C-item-l MyGameRecordList__C-item-l-red"></div>
+              <div class="MyGameRecordList__C-item-m">
+                <div class="MyGameRecordList__C-item-m-top">20260420301758</div>
+                <div class="MyGameRecordList__C-item-m-bottom">2026-04-20 14:38:47</div>
+              </div>
+              <div class="MyGameRecordList__C-item-r">
+                <div>failed</div>
+                <span>-₹11.76</span>
+              </div>
+            </div>
+            <!-- Record Item 2 -->
+            <div class="MyGameRecordList__C-item">
+              <div class="MyGameRecordList__C-item-l MyGameRecordList__C-item-l-red"></div>
+              <div class="MyGameRecordList__C-item-m">
+                <div class="MyGameRecordList__C-item-m-top">20260420301757</div>
+                <div class="MyGameRecordList__C-item-m-bottom">2026-04-20 14:35:12</div>
+              </div>
+              <div class="MyGameRecordList__C-item-r">
+                <div>failed</div>
+                <span>-₹50.00</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="MyGameRecord__C-foot">
+          <div class="MyGameRecord__C-foot-previous disabled">
+            <svg class="icon-arrow" viewBox="0 0 24 24">
+              <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
+            </svg>
+          </div>
+          <div class="MyGameRecord__C-foot-page">1/1</div>
+          <div class="MyGameRecord__C-foot-next disabled">
+            <svg class="icon-arrow" viewBox="0 0 24 24">
+              <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+
+  </div>
+
+  <!-- HOW TO PLAY POPUP -->
+  <div class="how-to-overlay" id="howToOverlay" onclick="toggleHowTo(false)">
+    <div class="how-to-popup" onclick="event.stopPropagation()">
+      <div class="how-to-head">How to play</div>
+      <div class="how-to-body">
+        <div>
+          <p><b>30 seconds per issue, 25 seconds to place an order, 5 seconds to draw a prize, open all day, total
+              transaction volume 2880 issues.</b></p>
+          <p>If you spend 100 to trade, after deducting service fee 2%, contract amount: 98.</p>
+          <p>1. <b>Select green:</b> If the result shows 1, 3, 7, 9 you will get (98 * 2) = 196; If the result shows 5, you
+            will get (98 * 1.5) = 147.</p>
+          <p>2. <b>Select red:</b> If the result shows 2, 4, 6, 8 you will get (98 * 2) = 196; If the result shows 0, you
+            will get (98 * 1.5) = 147.</p>
+          <p>3. <b>Select violet:</b> If the result shows 0 or 5, you will get (98 * 4.5) = 441.</p>
+          <p>4. <b>Select number:</b> If the result is the same as the number you selected, you will get (98 * 9) = 882.
+          </p>
+          <p>5. <b>Select big:</b> If the result shows 5, 6, 7, 8, 9 you will get (98 * 2) = 196.</p>
+          <p>6. <b>Select small:</b> If the result shows 0, 1, 2, 3, 4 you will get (98 * 2) = 196.</p>
+        </div>
+      </div>
+      <div class="how-to-foot">
+        <div class="how-to-foot-btn" onclick="toggleHowTo(false)">closure</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRE-SALE RULES POPUP -->
+  <div class="presale-overlay" id="presaleOverlay" onclick="togglePreSale(false)">
+    <div class="presale-popup" onclick="event.stopPropagation()">
+      <div class="presale-head">Pre-sale rules</div>
+      <div class="presale-body">
+        In order to protect the legitimate rights and interests of users participating in the pre-sale and maintain the
+        normal operation order of the pre-sale, these rules are formulated in accordance with relevant agreements and
+        national laws and regulations. Chapter 1 Definition 1.1 Pre-sale definition: refers to the merchants providing
+        products or services Plan, collect consumer orders through pre-sale product tools, and provide consumers with
+        goods and/or services according to prior agreement. Sales model 1.2
+        The pre-sale model is the "deposit" model. "Deposit" refers to pre-delivery at a fixed number of pre-sale items.
+        "Deposit" Scam Participate in mini games for a chance to win more deposits. Deposits can be exchanged directly
+        for merchandise. The deposit is not redeemable. 1.3
+        Pre-sale products: Refers to the products transferred by merchants using the pre-sale product tools. Only mark
+        the word pre-sale on the product name or product details page, and products that do not use the pre-sale product
+        tool are not pre-sale products.
+        1.4 Pre-sale system: refers to the system product tool that supports merchants to sell pre-sale models. 1.5
+        Pre-sale product price: refers to the sales price of pre-sale products. The price of pre-sale items consists of
+        two parts: deposit and final payment.
+      </div>
+      <div class="presale-foot">
+        <div class="presale-foot-btn" onclick="togglePreSale(false)">I Know</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Tab switching functionality
+    const tabs = document.querySelectorAll('.GameList__C-item');
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        if (!tab.classList.contains('active')) {
+          tabs.forEach(t => {
+            t.classList.remove('active');
+            const img = t.querySelector('.timer-icon');
+            if (img) img.src = 'assets/timer_nonact.png';
+          });
+
+          tab.classList.add('active');
+          const activeImg = tab.querySelector('.timer-icon');
+          if (activeImg) activeImg.src = 'assets/timer_act.png';
+        }
+      });
+    });
+
+    // ── BETTING POPUP LOGIC ──
+    const popupCfg = {
+      green: { grad: 'grad-green', label: 'green', ac: 'rgb(71,186,124)', footBg: 'linear-gradient(90deg,rgb(63,170,112),rgb(71,186,124))' },
+      red: { grad: 'grad-red', label: 'red', ac: 'rgb(255,100,108)', footBg: 'linear-gradient(90deg,rgb(252,80,80),rgb(255,100,108))' },
+      violet: { grad: 'grad-violet', label: 'violet', ac: 'rgb(182,88,254)', footBg: 'linear-gradient(90deg,rgb(182,88,254),rgb(205,116,255))' },
+      big: { grad: 'grad-big', label: 'big', ac: 'rgb(230,160,0)', footBg: 'linear-gradient(90deg,rgb(230,160,0),rgb(255,190,30))' },
+      small: { grad: 'grad-small', label: 'small', ac: 'rgb(40,130,220)', footBg: 'linear-gradient(90deg,rgb(40,130,220),rgb(70,160,255))' },
+      0: { grad: 'grad-split', label: '0', ac: 'rgb(251,78,78)', footBg: 'linear-gradient(135deg,rgb(251,78,78) 50%,rgb(182,88,254) 50%)' },
+      5: { grad: 'grad-split', label: '5', ac: 'rgb(182,88,254)', footBg: 'linear-gradient(135deg,rgb(251,78,78) 50%,rgb(182,88,254) 50%)' },
+      1: { grad: 'grad-green', label: '1', ac: 'rgb(71,186,124)', footBg: 'linear-gradient(90deg,rgb(63,170,112),rgb(71,186,124))' },
+      2: { grad: 'grad-red', label: '2', ac: 'rgb(255,100,108)', footBg: 'linear-gradient(90deg,rgb(252,80,80),rgb(255,100,108))' },
+      3: { grad: 'grad-green', label: '3', ac: 'rgb(71,186,124)', footBg: 'linear-gradient(90deg,rgb(63,170,112),rgb(71,186,124))' },
+      4: { grad: 'grad-red', label: '4', ac: 'rgb(255,100,108)', footBg: 'linear-gradient(90deg,rgb(252,80,80),rgb(255,100,108))' },
+      6: { grad: 'grad-red', label: '6', ac: 'rgb(255,100,108)', footBg: 'linear-gradient(90deg,rgb(252,80,80),rgb(255,100,108))' },
+      7: { grad: 'grad-green', label: '7', ac: 'rgb(71,186,124)', footBg: 'linear-gradient(90deg,rgb(63,170,112),rgb(71,186,124))' },
+      8: { grad: 'grad-red', label: '8', ac: 'rgb(255,100,108)', footBg: 'linear-gradient(90deg,rgb(252,80,80),rgb(255,100,108))' },
+      9: { grad: 'grad-green', label: '9', ac: 'rgb(71,186,124)', footBg: 'linear-gradient(90deg,rgb(63,170,112),rgb(71,186,124))' },
+    };
+
+    let currentAc = 'rgb(71,186,124)';
+    let selectedBalance = 1;
+
+    function openPopup(key) {
+      const c = popupCfg[key];
+      if (!c) return;
+      currentAc = c.ac;
+      selectedBalance = 1;
+
+      document.getElementById('popupHead').className = 'popup-head ' + c.grad;
+      document.getElementById('popupLabel').textContent = c.label;
+      document.getElementById('agreeLink').style.color = c.ac;
+      document.getElementById('qtyMinus').style.background = c.ac;
+      document.getElementById('qtyPlus').style.background = c.ac;
+      document.getElementById('footSubmit').style.background = c.footBg;
+
+      // Reset chips — activate first of each group
+      ['balanceChips', 'mulChips'].forEach(id => {
+        document.getElementById(id).querySelectorAll('.chip').forEach((ch, i) => {
+          const on = i === 0;
+          ch.style.background = on ? c.ac : '';
+          ch.style.color = on ? '#fff' : '';
+        });
+      });
+
+      document.getElementById('qtyInput').value = 1;
+      updateTotal();
+      document.getElementById('betOverlay').classList.add('active');
+    }
+
+    function selectChip(el, group) {
+      const id = group === 'balance' ? 'balanceChips' : 'mulChips';
+      document.getElementById(id).querySelectorAll('.chip').forEach(ch => {
+        ch.style.background = '';
+        ch.style.color = '';
+      });
+      el.style.background = currentAc;
+      el.style.color = '#fff';
+
+      if (group === 'balance') {
+        selectedBalance = parseInt(el.textContent);
+      } else {
+        // Multiplier chips now update the Quantity input directly
+        const val = parseInt(el.textContent.replace('X', ''));
+        document.getElementById('qtyInput').value = val;
+      }
+      updateTotal();
+    }
+
+    function changeQty(d) {
+      const inp = document.getElementById('qtyInput');
+      inp.value = Math.max(1, parseInt(inp.value || 1) + d);
+      updateTotal();
+    }
+
+    function updateTotal() {
+      const qty = parseInt(document.getElementById('qtyInput').value || 1);
+      const total = (selectedBalance * qty).toFixed(2);
+      document.getElementById('footSubmit').textContent = 'Total amount ₹' + total;
+    }
+
+    function toggleAgree() {
+      document.getElementById('agreeCheck').classList.toggle('checked');
+    }
+
+    function closeOutside(e) {
+      if (e.target.id === 'betOverlay') document.getElementById('betOverlay').classList.remove('active');
+    }
+
+    function closePopupBtn() {
+      document.getElementById('betOverlay').classList.remove('active');
+    }
+
+    // Record Tab Navigation
+    document.querySelectorAll('.RecordNav__C div').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.RecordNav__C div').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+
+        document.querySelectorAll('.GameRecord__C, .Trend__C').forEach(s => s.classList.remove('active'));
+
+        const target = tab.getAttribute('data-tab');
+        document.getElementById(target).classList.add('active');
+      });
+    });
+
+    // Trend Body 2 Data & Dynamic Generation
+    const trendData = [
+      { id: "20260426302407", n: 0, bs: "S" },
+      { id: "20260426302406", n: 1, bs: "S" },
+      { id: "20260426302405", n: 1, bs: "S" },
+      { id: "20260426302404", n: 7, bs: "B" },
+      { id: "20260426302403", n: 2, bs: "S" },
+      { id: "20260426302402", n: 9, bs: "B" },
+      { id: "20260426302401", n: 0, bs: "S" },
+      { id: "20260426302400", n: 9, bs: "B" },
+      { id: "20260426302399", n: 7, bs: "B" },
+      { id: "20260426302398", n: 2, bs: "S" }
+    ];
+
+    const body2Container = document.querySelector('.Trend__C-body2');
+
+    trendData.forEach(item => {
+      const row = document.createElement('div');
+      let numsHtml = '';
+
+      for (let i = 0; i < 10; i++) {
+        numsHtml += `<div class="Trend__C-body2-Num-item ${i === item.n ? 'action' + i : ''}">${i}</div>`;
+      }
+
+      row.innerHTML = `
+        <div class="van-row">
+          <div class="van-col--8">${item.id}</div>
+          <div class="van-col--16">
+            <div class="Trend__C-body2-Num">${numsHtml}</div>
+            <div class="Trend__C-body2-Num-BS is${item.bs}">${item.bs}</div>
+          </div>
+        </div>`;
+
+      body2Container.appendChild(row);
+    });
+
+    // Dynamic Trend Line Generation
+    function drawTrendLine() {
+      const svg = document.querySelector('.line-overlay');
+      const path = document.querySelector('.trend-path');
+      const items = document.querySelectorAll('.Trend__C-body2 .Trend__C-body2-Num-item');
+      const activeItems = Array.from(items).filter(item => item.classList.toString().includes('action'));
+
+      if (activeItems.length === 0) return;
+
+      // Update SVG size to match container
+      const container = document.querySelector('.Trend__C-body2');
+      const rect = container.getBoundingClientRect();
+      const col16 = document.querySelector('.Trend__C-body2 .van-col--16');
+      const colRect = col16.getBoundingClientRect();
+
+      // The SVG is relative to the col16 area (due to left: 30% in CSS)
+      // but we need to calculate points relative to the SVG's own coordinate system.
+      let d = '';
+
+      activeItems.forEach((item, index) => {
+        const itemRect = item.getBoundingClientRect();
+        const svgRect = svg.getBoundingClientRect();
+
+        // Calculate center of the item relative to the SVG
+        const x = itemRect.left - svgRect.left + (itemRect.width / 2);
+        const y = itemRect.top - svgRect.top + (itemRect.height / 2);
+
+        if (index === 0) {
+          d += `M ${x} ${y}`;
+        } else {
+          d += ` L ${x} ${y}`;
+        }
+      });
+
+      path.setAttribute('d', d);
+    }
+
+    // Draw initially and on window resize/tab switch
+    setTimeout(drawTrendLine, 100);
+    window.addEventListener('resize', drawTrendLine);
+
+    // Also redraw when switching to Trend tab
+    document.querySelectorAll('.RecordNav__C div').forEach(tab => {
+      tab.addEventListener('click', () => {
+        if (tab.getAttribute('data-tab') === 'trend') {
+          setTimeout(drawTrendLine, 50);
+        }
+      });
+    });
+
+    // ── TIMER & LAST 5S COUNTDOWN LOGIC ──
+    let timeRemaining = 30; // 30 seconds for "Win Go 30s"
+    const timerDigits = document.querySelectorAll('.TimeLeft__C-time-digit span');
+    const countdownOverlay = document.getElementById('countdownOverlay');
+    const cdDigit1 = document.getElementById('cdDigit1');
+    const cdDigit2 = document.getElementById('cdDigit2');
+
+    // Audio assets
+    const audioDi1 = new Audio('assets/mp3/di1.mp3');
+    const audioDi2 = new Audio('assets/mp3/di2.mp3');
+
+    function updateTimerDisplay() {
+      const minutes = Math.floor(timeRemaining / 60);
+      const seconds = timeRemaining % 60;
+
+      // Update header timer (MM:SS)
+      const minStr = String(minutes).padStart(2, '0');
+      const secStr = String(seconds).padStart(2, '0');
+
+      if (timerDigits.length >= 4) {
+        timerDigits[0].textContent = minStr[0];
+        timerDigits[1].textContent = minStr[1];
+        timerDigits[2].textContent = secStr[0];
+        timerDigits[3].textContent = secStr[1];
+      }
+
+      // Last 5 seconds logic (5 down to 0)
+      if (timeRemaining <= 5 && timeRemaining >= 0) {
+        countdownOverlay.classList.add('active');
+        cdDigit1.textContent = '0';
+        cdDigit2.textContent = timeRemaining;
+
+        // Play audio: di1 when 5,4,3,2 are gone (at 4,3,2,1)
+        if (timeRemaining >= 1 && timeRemaining <= 4 && audioDi1.readyState >= 2) {
+          audioDi1.currentTime = 0;
+          audioDi1.play().catch(e => console.log("Audio play failed:", e));
+        }
+
+        // Final sound: di2 when 1 is gone (at 0)
+        if (timeRemaining === 0 && audioDi2.readyState >= 2) {
+          audioDi2.currentTime = 0;
+          audioDi2.play().catch(e => console.log("Audio play failed:", e));
+        }
+        
+        // Close betting popup if open
+        const betOverlay = document.getElementById('betOverlay');
+        if (betOverlay.classList.contains('active')) {
+          closePopupBtn();
+        }
+      } else {
+        countdownOverlay.classList.remove('active');
+      }
+
+      if (timeRemaining === -1) {
+        // Reset to 30 for demo purposes
+        timeRemaining = 30;
+        countdownOverlay.classList.remove('active');
+      }
+
+      timeRemaining--;
+      setTimeout(updateTimerDisplay, 1000);
+    }
+
+    // Start the timer
+    updateTimerDisplay();
+
+    // ── HOW TO PLAY POPUP LOGIC ──
+    function toggleHowTo(show) {
+      const overlay = document.getElementById('howToOverlay');
+      if (show) {
+        overlay.classList.add('active');
+      } else {
+        overlay.classList.remove('active');
+      }
+    }
+
+    // ── PRE-SALE RULES POPUP LOGIC ──
+    function togglePreSale(show) {
+      const overlay = document.getElementById('presaleOverlay');
+      if (show) {
+        overlay.classList.add('active');
+      } else {
+        overlay.classList.remove('active');
+      }
+    }
+  </script>
+
+  <!-- BETTING POPUP -->
+  <div class="bet-overlay" id="betOverlay" onclick="closeOutside(event)">
+    <div class="bet-popup">
+      <!-- HEAD -->
+      <div class="popup-head" id="popupHead">
+        <div class="popup-head-title">Win Go 30s</div>
+        <div class="popup-head-bar">
+          <span>choose</span><span id="popupLabel">green</span>
+        </div>
+      </div>
+
+      <!-- BODY -->
+      <div class="popup-body">
+        <!-- Balance -->
+        <div class="body-line">
+          <span class="body-label">Balance</span>
+          <div class="chip-list" id="balanceChips">
+            <button class="chip" onclick="selectChip(this,'balance')">1</button>
+            <button class="chip" onclick="selectChip(this,'balance')">10</button>
+            <button class="chip" onclick="selectChip(this,'balance')">100</button>
+            <button class="chip" onclick="selectChip(this,'balance')">1000</button>
+          </div>
+        </div>
+
+        <!-- Quantity -->
+        <div class="body-line">
+          <span class="body-label">Quantity</span>
+          <div class="qty-ctrl">
+            <button class="qty-btn" id="qtyMinus" onclick="changeQty(-1)">−</button>
+            <input class="qty-input" type="number" id="qtyInput" value="1" min="1" oninput="updateTotal()" />
+            <button class="qty-btn" id="qtyPlus" onclick="changeQty(1)">+</button>
+          </div>
+        </div>
+
+        <!-- Multiplier -->
+        <div class="body-line">
+          <span class="body-label" style="visibility:hidden">X</span>
+          <div class="chip-list" id="mulChips">
+            <button class="chip" onclick="selectChip(this,'mul')">X1</button>
+            <button class="chip" onclick="selectChip(this,'mul')">X5</button>
+            <button class="chip" onclick="selectChip(this,'mul')">X10</button>
+            <button class="chip" onclick="selectChip(this,'mul')">X20</button>
+            <button class="chip" onclick="selectChip(this,'mul')">X50</button>
+            <button class="chip" onclick="selectChip(this,'mul')">X100</button>
+          </div>
+        </div>
+
+        <!-- Agreement -->
+        <div class="body-line agree-row">
+          <div class="agree-check checked" id="agreeCheck" onclick="toggleAgree()"></div>
+          <span class="agree-text">I agree</span>
+          <span class="agree-link" id="agreeLink" onclick="togglePreSale(true)">Pre-sale rules</span>
+        </div>
+      </div>
+
+      <!-- FOOTER -->
+      <div class="popup-foot">
+        <button class="foot-cancel" onclick="closePopupBtn()">cancel</button>
+        <button class="foot-submit" id="footSubmit">Total amount ₹1.00</button>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <style>
+    :root {
+      --gold: #ffc837;
+      --gold-glow: rgba(255, 200, 55, 0.35);
+      --sweep-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .Betting__C {
+      position: relative;
+      width: 445px;
+      height: 377px;
+      margin: 15px auto;
+      border-radius: 13px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.02));
+      backdrop-filter: blur(10px);
+      box-shadow: 0 3px 15px rgba(0, 0, 0, 0.35);
+      overflow: hidden;
+      font-family: sans-serif;
+    }
+
+    /* --- Countdown Overlay (Animated Reflections & Rays) --- */
+    .Betting__C-mark {
+      position: absolute;
+      inset: 0;
+      z-index: 99;
+      background: radial-gradient(rgba(45, 21, 96, 0.4) 0%, transparent 70%), rgba(13, 6, 24, 0.92);
+      backdrop-filter: blur(8px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .mark-rays {
+      position: absolute;
+      width: 330px;
+      height: 330px;
+      background: conic-gradient(transparent 0deg, rgba(255, 200, 55, 0.04) 5deg, transparent 10deg, transparent 50deg, rgba(168, 120, 255, 0.03) 55deg, transparent 60deg, transparent 360deg);
+      animation: markRaysRotate 20s linear infinite;
+    }
+
+    .mark-pulse {
+      position: absolute;
+      width: 184px;
+      height: 184px;
+      border-radius: 50%;
+      border: 1px solid var(--gold-glow);
+      animation: markPulseExpand 3s ease-out infinite;
+    }
+
+    .pulse2 {
+      animation-delay: 1s;
+    }
+
+    .pulse3 {
+      animation-delay: 2s;
+    }
+
+    .mark-ring {
+      position: absolute;
+      width: 277px;
+      height: 277px;
+      border-radius: 50%;
+      box-shadow: 0 0 20px rgba(255, 200, 55, 0.15);
+      animation: markRingRotate 3s linear infinite;
+    }
+
+    /* --- Glossy Buttons with Sweep Reflection --- */
+    .glossy-btn {
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    /* The Reflection Sweep effect */
+    .glossy-btn::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -150%;
+      width: 80%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, var(--sweep-color), transparent);
+      animation: colorBtnSweep 3s ease-in-out infinite;
+      z-index: 1;
+    }
+
+    .Betting__C-head-g {
+      background: linear-gradient(135deg, #2d8a56, #40ad72);
+      border-radius: 0 13px;
+      box-shadow: 0 3px 8px rgba(64, 173, 114, 0.35);
+    }
+
+    .Betting__C-head-p {
+      background: linear-gradient(135deg, #8b2fc7, #b659fe);
+      border-radius: 13px;
+      box-shadow: 0 3px 8px rgba(182, 89, 254, 0.35);
+    }
+
+    .Betting__C-head-r {
+      background: linear-gradient(135deg, #d03840, #fd565c);
+      border-radius: 13px 0;
+      box-shadow: 0 3px 8px rgba(253, 86, 92, 0.35);
+    }
+
+    .Betting__C-foot-b {
+      background: linear-gradient(135deg, var(--gold), #e8a820);
+      border-radius: 26px 0 0 26px;
+      color: #1a0a2e !important;
+    }
+
+    .Betting__C-foot-s {
+      background: linear-gradient(135deg, #7c3aed, #a855f7);
+      border-radius: 0 26px 26px 0;
+    }
+
+    .Betting__C-foot-b::before,
+    .Betting__C-foot-s::before {
+      animation-duration: 3.5s;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+    }
+
+    /* --- Keyframes --- */
+    @keyframes colorBtnSweep {
+      0% {
+        transform: translateX(-100%);
+      }
+
+      100% {
+        transform: translateX(400%);
+      }
+    }
+
+    @keyframes markRaysRotate {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes markPulseExpand {
+      0% {
+        transform: scale(0.6);
+        opacity: 0.7;
+      }
+
+      100% {
+        transform: scale(2.2);
+        opacity: 0;
+      }
+    }
+
+    @keyframes markRingRotate {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* Layout Grid */
+    .Betting__C-head {
+      display: flex;
+      justify-content: space-between;
+      margin: 10px;
+      height: 46px;
+    }
+
+    .Betting__C-head div {
+      width: 127px;
+      z-index: 2;
+    }
+
+    .Betting__C-numC {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      padding: 10px;
+      margin: 15px;
+      background: rgba(45, 21, 96, 0.4);
+      border-radius: 13px;
+    }
+
+    .Betting__C-numC div {
+      height: 75px;
+      background-size: contain;
+      background-repeat: no-repeat;
+    }
+
+    .Betting__C-foot {
+      display: flex;
+      justify-content: center;
+      height: 47px;
+      margin-top: 15px;
+    }
+
+    .Betting__C-foot div {
+      width: 204px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="Betting__C">
+    <!-- Countdown Overlay -->
+    <div class="Betting__C-mark">
+      <div class="mark-rays"></div>
+      <div class="mark-pulse"></div>
+      <div class="mark-pulse pulse2"></div>
+      <div class="mark-pulse pulse3"></div>
+      <div class="mark-ring"></div>
+      <div style="z-index: 10; display: flex; align-items: center; color: var(--gold);">
+        <div
+          style="font-size: 100px; font-weight: 900; background: rgba(255,200,55,0.06); padding: 0 15px; border-radius: 15px;">
+          0</div>
+        <div style="font-size: 60px; margin: 0 10px;">:</div>
+        <div
+          style="font-size: 100px; font-weight: 900; background: rgba(255,200,55,0.06); padding: 0 15px; border-radius: 15px;">
+          4</div>
+      </div>
+      <div style="z-index: 10; color: rgba(255,200,55,0.45); font-weight: 600; margin-top: 20px;">COUNTDOWN</div>
+    </div>
+
+
+  </div>
+
+</body>
+
+</html>

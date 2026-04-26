@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Game Record + Chart Trends</title>
+  <style>
+    :root {
+      --gold: #ffc837;
+      --gold-light: rgba(255, 200, 55, 0.5);
+      --gold-glow: rgba(255, 200, 55, 0.15);
+      --text-active: #ffd54f;
+      --text-inactive: rgba(255, 255, 255, 0.45);
+      --red: #fd565c;
+      --green: #40ad72;
+      --violet: #b659fe;
+      --header-glass: linear-gradient(135deg, rgba(255, 200, 55, 0.08), rgba(255, 255, 255, 0.04) 50%, rgba(255, 200, 55, 0.06));
+      --body-glass: linear-gradient(rgba(255, 255, 255, 0.024), rgba(255, 255, 255, 0.01));
+      --row-h: 72px;
+      --dot-sz: 22px;
+      --primary-red: #fb4e4e;
+      --primary-green: #5cba47;
+      --primary-violet: #eb43dd;
+    }
+
+    body {
+      background: #0d0618;
+      font-family: -apple-system, sans-serif;
+      padding: 30px 20px;
+      color: #fff;
+      margin: 0;
+    }
+
+    /* ==================== NAVIGATION TABS ==================== */
+    .RecordNav__C {
+      position: relative;
+      width: 445.6px;
+      height: 52.8px;
+      margin: 0 auto 30px auto;
+      padding: 4px;
+      border-radius: 11px;
+      border: 0.8px solid rgba(255, 200, 55, 0.1);
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.03), rgba(255, 200, 55, 0.02));
+      box-shadow: 0 1.3px 7.9px rgba(0, 0, 0, 0.15), inset 0 0.6px 0 rgba(255, 255, 255, 0.03);
+      display: flex;
+      overflow: visible;
+    }
+
+    .RecordNav__C::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 0.65px;
+      background: linear-gradient(90deg, transparent 10%, rgba(255, 200, 55, 0.15) 50%, transparent 90%);
+    }
+
+    .RecordNav__C div {
+      flex: 1;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14.5px;
+      color: var(--text-inactive);
+      border-radius: 9px;
+      cursor: pointer;
+      transition: all 0.3s;
+      position: relative;
+    }
+
+    .RecordNav__C div.active {
+      color: var(--text-active);
+      font-weight: 700;
+      background: linear-gradient(135deg, rgba(255, 200, 55, 0.18), rgba(255, 180, 30, 0.08));
+      border: 0.8px solid rgba(255, 200, 55, 0.35);
+      box-shadow: 0 0 10.5px var(--gold-glow), inset 0 0.6px 0 rgba(255, 255, 255, 0.08);
+    }
+
+    .RecordNav__C div.active::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 15%;
+      width: 70%;
+      height: 0.65px;
+      background: linear-gradient(90deg, transparent, var(--gold-light), transparent);
+    }
+
+    .RecordNav__C div.active::after {
+      content: "";
+      position: absolute;
+      bottom: -1px;
+      left: 18%;
+      width: 64%;
+      height: 1.3px;
+      background: linear-gradient(90deg,
+          transparent 12%,
+          rgba(255, 200, 55, 0.85) 35%,
+          rgba(255, 200, 55, 0.95) 50%,
+          rgba(255, 200, 55, 0.85) 65%,
+          transparent 88%);
+      box-shadow: 0 0 4px rgba(255, 200, 55, 0.6);
+      border-radius: 2px;
+    }
+
+    /* ==================== SECTIONS ==================== */
+    .GameRecord__C,
+    .Trend__C {
+      width: 445px;
+      margin: 0 auto;
+      display: none;
+    }
+
+    .GameRecord__C.active,
+    .Trend__C.active {
+      display: block;
+    }
+
+    /* ==================== GAME RECORD SECTION ==================== */
+    .GameRecord__C-head {
+      position: relative;
+      height: 55px;
+      display: flex;
+      align-items: center;
+      background: var(--header-glass);
+      border-radius: 10px 10px 0 0;
+      color: #ffd54f;
+      font-weight: 700;
+      font-size: 15.8px;
+      border: 1px solid rgba(255, 200, 55, 0.15);
+    }
+
+    .GameRecord__C-head::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 6px;
+      width: 2.6px;
+      height: 41px;
+      background: linear-gradient(#ffd54f, #e8a820);
+    }
+
+    .van-row {
+      display: flex;
+      align-items: center;
+      min-height: 50px;
+      background: var(--body-glass);
+      border-bottom: 0.5px solid rgba(255, 255, 255, 0.05);
+      padding: 0 12px;
+    }
+
+    .van-row:last-child {
+      border-bottom: none;
+    }
+
+    .van-col--8 {
+      width: 33.3%;
+      text-align: center;
+    }
+
+    .van-col--5 {
+      width: 20.8%;
+      text-align: center;
+    }
+
+    .van-col--6 {
+      width: 25.1%;
+      text-align: center;
+    }
+
+    .van-col--16 {
+      width: 66.6%;
+      text-align: center;
+    }
+
+    .GameRecord__C-body-num {
+      font-size: 18px;
+      font-weight: 900;
+    }
+
+    .num-red {
+      color: var(--red);
+    }
+
+    .num-green {
+      color: var(--green);
+    }
+
+    .num-mixed-5 {
+      background: linear-gradient(var(--green) 51%, var(--violet) 51%);
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .num-mixed-0 {
+      background: linear-gradient(var(--red) 51%, var(--violet) 51%);
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .GameRecord__C-origin {
+      display: flex;
+      justify-content: center;
+      gap: 4px;
+    }
+
+    .GameRecord__C-origin-I {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      box-shadow: 0 0 5px currentColor;
+    }
+
+    /* ==================== CHART TRENDS SECTION ==================== */
+    .Trend__C-head {
+      position: relative;
+      height: 55px;
+      display: flex;
+      align-items: center;
+      background: var(--header-glass);
+      border-radius: 10px 10px 0 0;
+      color: #ffd54f;
+      font-weight: 700;
+      font-size: 15.8px;
+      border: 1px solid rgba(255, 200, 55, 0.15);
+    }
+
+    .Trend__C-head::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 6px;
+      width: 2.6px;
+      height: 41px;
+      background: linear-gradient(#ffd54f, #e8a820);
+    }
+
+    .Trend__C-head::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 0.6px;
+      background: linear-gradient(90deg, transparent 5%, rgba(255, 200, 55, 0.25) 50%, transparent 95%);
+    }
+
+    .Trend__C-body1 {
+      background: var(--body-glass);
+      padding-bottom: 20px;
+      color: rgba(255, 255, 255, 0.75);
+      font-size: 15.8px;
+    }
+
+    .Trend__C-body1-line {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 15px 0 13px;
+      font-size: 14.2px;
+    }
+
+    .Trend__C-body1-line:not(:first-child) {
+      margin-top: 12px;
+    }
+
+    .Trend__C-body1-line-num {
+      display: flex;
+      gap: 8px;
+      color: var(--gold);
+    }
+
+    .lottery .Trend__C-body1-line-num div {
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    /* ==================== TREND BODY 2 ==================== */
+    .Trend__C-body2 {
+      position: relative;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      background: var(--body-glass);
+      border-radius: 0 0 10px 10px;
+      overflow: hidden;
+    }
+
+    .Trend__C-body2>div {
+      height: var(--row-h);
+      display: flex;
+      align-items: center;
+      padding: 0 10px;
+      box-sizing: border-box;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      z-index: 2;
+    }
+
+    .Trend__C-body2>div:nth-child(even) {
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .Trend__C-body2>div:last-child {
+      border-bottom: none;
+    }
+
+    .van-row {
+      display: flex;
+      width: 100%;
+      align-items: center;
+    }
+
+    .van-col--8 {
+      width: 30%;
+      color: #999;
+      font-size: 13px;
+    }
+
+    .van-col--16 {
+      width: 70%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+    }
+
+    .Trend__C-body2-Num {
+      display: flex;
+      flex: 1;
+      justify-content: space-between;
+      padding-right: 15px;
+    }
+
+    .Trend__C-body2-Num-item {
+      width: var(--dot-sz);
+      height: var(--dot-sz);
+      line-height: var(--dot-sz);
+      text-align: center;
+      border-radius: 50%;
+      font-size: 12px;
+      color: #666;
+      position: relative;
+    }
+
+    /* Dynamic Dot Colors */
+    .action1,
+    .action3,
+    .action7,
+    .action9 {
+      background: var(--primary-green);
+      color: #fff !important;
+    }
+
+    .action2,
+    .action4,
+    .action6,
+    .action8 {
+      background: var(--primary-red);
+      color: #fff !important;
+    }
+
+    .action0 {
+      background: linear-gradient(135deg, var(--primary-red) 50%, var(--primary-violet) 50%);
+      color: #fff !important;
+    }
+
+    .action5 {
+      background: linear-gradient(135deg, var(--primary-green) 50%, var(--primary-violet) 50%);
+      color: #fff !important;
+    }
+
+    .Trend__C-body2-Num-BS {
+      width: var(--dot-sz);
+      height: var(--dot-sz);
+      line-height: var(--dot-sz);
+      text-align: center;
+      border-radius: 50%;
+      font-size: 12px;
+      color: #fff;
+    }
+
+    .isB {
+      background: #f3bd14;
+    }
+
+    .isS {
+      background: #6da7f4;
+    }
+
+    /* Dynamic SVG Line Layer */
+    .line-overlay {
+      position: absolute;
+      top: 0;
+      left: 30%;
+      width: 70%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .trend-path {
+      fill: none;
+      stroke: var(--primary-red);
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      opacity: 0.8;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <div class="RecordNav__C">
+    <div class="active" data-tab="game">Game Record</div>
+    <div data-tab="trend">Chart Trends</div>
+    <div data-tab="my">My Game Record</div>
+  </div>
+
+  <!-- Game Record -->
+  <div id="game" class="GameRecord__C active">
+    <div class="GameRecord__C-head">
+      <div class="van-row" style="background: transparent; border-bottom: 1px solid rgba(255,200,55,0.15);">
+        <div class="van-col--8">Period</div>
+        <div class="van-col--5">Number</div>
+        <div class="van-col--5">Size</div>
+        <div class="van-col--6">Color</div>
+      </div>
+    </div>
+
+    <div class="GameRecord__C-body">
+      <div class="van-row">
+        <div class="van-col--8">20260425302540</div>
+        <div class="van-col--5">
+          <div class="GameRecord__C-body-num num-red">6</div>
+        </div>
+        <div class="van-col--5">Big</div>
+        <div class="van-col--6">
+          <div class="GameRecord__C-origin">
+            <div class="GameRecord__C-origin-I" style="background:var(--red)"></div>
+          </div>
+        </div>
+      </div>
+      <div class="van-row">
+        <div class="van-col--8">20260425302534</div>
+        <div class="van-col--5">
+          <div class="GameRecord__C-body-num num-green">7</div>
+        </div>
+        <div class="van-col--5">Big</div>
+        <div class="van-col--6">
+          <div class="GameRecord__C-origin">
+            <div class="GameRecord__C-origin-I" style="background:var(--green)"></div>
+          </div>
+        </div>
+      </div>
+      <div class="van-row">
+        <div class="van-col--8">20260425302530</div>
+        <div class="van-col--5">
+          <div class="GameRecord__C-body-num num-mixed-0">0</div>
+        </div>
+        <div class="van-col--5">small</div>
+        <div class="van-col--6">
+          <div class="GameRecord__C-origin">
+            <div class="GameRecord__C-origin-I" style="background:var(--red)"></div>
+            <div class="GameRecord__C-origin-I" style="background:var(--violet)"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chart Trends -->
+  <div id="trend" class="Trend__C">
+    <div class="Trend__C-head">
+      <div class="van-row" style="background: transparent; border-bottom: 1px solid rgba(255,200,55,0.15);">
+        <div class="van-col--8">Issue</div>
+        <div class="van-col--16">Number</div>
+      </div>
+    </div>
+
+    <div class="Trend__C-body1">
+      <div class="Trend__C-body1-line" style="color:#fff; font-weight:600;">Betting Assistant (last 100 issues)</div>
+
+      <div class="Trend__C-body1-line lottery">
+        <div>Winning numbers</div>
+        <div class="Trend__C-body1-line-num">
+          <div>0</div>
+          <div>1</div>
+          <div>2</div>
+          <div>3</div>
+          <div>4</div>
+          <div>5</div>
+          <div>6</div>
+          <div>7</div>
+          <div>8</div>
+          <div>9</div>
+        </div>
+      </div>
+      <div class="Trend__C-body1-line">
+        <div>Missing</div>
+        <div class="Trend__C-body1-line-num">
+          <span>7</span><span>6</span><span>0</span><span>11</span><span>29</span><span>4</span><span>51</span><span>13</span><span>1</span><span>2</span>
+        </div>
+      </div>
+      <div class="Trend__C-body1-line">
+        <div>Avg Missing</div>
+        <div class="Trend__C-body1-line-num">
+          <span>13</span><span>8</span><span>5</span><span>15</span><span>11</span><span>7</span><span>13</span><span>10</span><span>10</span><span>6</span>
+        </div>
+      </div>
+      <div class="Trend__C-body1-line">
+        <div>Frequency</div>
+        <div class="Trend__C-body1-line-num">
+          <span>7</span><span>11</span><span>17</span><span>5</span><span>8</span><span>16</span><span>6</span><span>8</span><span>8</span><span>14</span>
+        </div>
+      </div>
+      <div class="Trend__C-body1-line">
+        <div>Max Continued</div>
+        <div class="Trend__C-body1-line-num">
+          <span>1</span><span>2</span><span>2</span><span>1</span><span>2</span><span>2</span><span>1</span><span>1</span><span>1</span><span>2</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Trend Body 2 Added Here -->
+    <div class="Trend__C-body2">
+      <!-- Dynamic SVG Line -->
+      <svg class="line-overlay" viewBox="0 0 100 720" preserveAspectRatio="none">
+        <path class="trend-path"
+          d="M 5 36 L 14 108 L 14 180 L 68 252 L 23 324 L 86 396 L 5 468 L 86 540 L 68 612 L 23 684" />
+      </svg>
+
+      <!-- Rows will be added by JavaScript -->
+    </div>
+  </div>
+
+  <!-- My Game Record -->
+  <div id="my" class="GameRecord__C">
+    <div style="text-align:center; padding:100px 20px; color:rgba(255,255,255,0.4);">
+      My Game Record section coming soon...
+    </div>
+  </div>
+
+  <script>
+    // Tab Navigation
+    document.querySelectorAll('.RecordNav__C div').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.RecordNav__C div').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+
+        document.querySelectorAll('.GameRecord__C, .Trend__C').forEach(s => s.classList.remove('active'));
+
+        const target = tab.getAttribute('data-tab');
+        document.getElementById(target).classList.add('active');
+      });
+    });
+
+    // Trend Body 2 Data & Dynamic Generation
+    const trendData = [
+      { id: "20260426302407", n: 0, bs: "S" },
+      { id: "20260426302406", n: 1, bs: "S" },
+      { id: "20260426302405", n: 1, bs: "S" },
+      { id: "20260426302404", n: 7, bs: "B" },
+      { id: "20260426302403", n: 2, bs: "S" },
+      { id: "20260426302402", n: 9, bs: "B" },
+      { id: "20260426302401", n: 0, bs: "S" },
+      { id: "20260426302400", n: 9, bs: "B" },
+      { id: "20260426302399", n: 7, bs: "B" },
+      { id: "20260426302398", n: 2, bs: "S" }
+    ];
+
+    const body2Container = document.querySelector('.Trend__C-body2');
+
+    trendData.forEach(item => {
+      const row = document.createElement('div');
+      let numsHtml = '';
+
+      for (let i = 0; i < 10; i++) {
+        numsHtml += `<div class="Trend__C-body2-Num-item ${i === item.n ? 'action' + i : ''}">${i}</div>`;
+      }
+
+      row.innerHTML = `
+        <div class="van-row">
+          <div class="van-col--8">${item.id}</div>
+          <div class="van-col--16">
+            <div class="Trend__C-body2-Num">${numsHtml}</div>
+            <div class="Trend__C-body2-Num-BS is${item.bs}">${item.bs}</div>
+          </div>
+        </div>`;
+
+      body2Container.appendChild(row);
+    });
+  </script>
+
+</body>
+
+</html>

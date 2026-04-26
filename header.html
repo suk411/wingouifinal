@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    /* Main Navbar Container */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 60.7px;
+      background: rgba(26, 10, 46, 0.95);
+      backdrop-filter: blur(20px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 15.8px;
+      box-sizing: border-box;
+      z-index: 1000;
+    }
+
+    /* Navbar Container Context - LEFT */
+    .navbar__content-left {
+      position: absolute;
+      left: 15.8px;
+      top: 0;
+      height: 60.7px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* The Exact Glassy Back Button */
+    .back-btn {
+      position: relative;
+      /* Needed for pseudo-element positioning */
+      width: 42.2px;
+      height: 42.2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border-radius: 50%;
+
+      /* 1. Main Glass Gradient */
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
+
+      /* 2. Glass Border: Very thin and semi-transparent */
+      border: 0.8px solid rgba(255, 255, 255, 0.15);
+
+      /* 3. Layered Shadows: Outer drop shadow + Inset glass highlight */
+      box-shadow:
+        0 2.6px 9.2px rgba(0, 0, 0, 0.15),
+        inset 0 0.6px 1.3px rgba(255, 255, 255, 0.2);
+
+      overflow: hidden;
+      /* Clips the internal reflection */
+      transition: all 0.2s ease;
+    }
+
+    /* 4. Specular Highlight (The 'Glass' Shine) */
+    .back-btn::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 4px;
+      right: 4px;
+      height: 45%;
+      /* Covers only the top part */
+      background: linear-gradient(rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0));
+      border-radius: 50% 50% 0 0;
+      /* Matches the top curve */
+      pointer-events: none;
+    }
+
+    /* Interaction Effects */
+    .back-btn:active {
+      transform: scale(0.94);
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.15) 100%);
+    }
+
+    /* SVG Arrow */
+    .back-btn svg {
+      color: #ffffff;
+      z-index: 1;
+      /* Keep above reflection */
+    }
+
+    /* Navbar Container Context - CENTER */
+    .navbar__content-center {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 256px;
+      /* Extracted exact width */
+      height: 47px;
+      /* Extracted exact height */
+      margin: 0 auto;
+    }
+
+    /* SVG Sizing */
+    .brand-logo-svg {
+      display: block;
+      height: 100%;
+      width: auto;
+    }
+
+    /* Branding Text Styling */
+    .brand-logo-svg text {
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    /* Navbar Container Context - RIGHT */
+    .navbar__content-right {
+      position: absolute;
+      right: 15.8px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    /* Container for the more actions button */
+    .WinGo__C-head-more {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 76.5px;
+      /* Exact 1.54rem width */
+      height: 31.6px;
+      /* Exact 0.64rem height */
+    }
+
+    /* Common style for both icon buttons */
+    .head-more-icon {
+      width: 31.6px;
+      height: 31.6px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      display: block;
+      cursor: pointer;
+      transition: opacity 0.1s;
+    }
+
+    .head-more-icon:active {
+      opacity: 0.6;
+    }
+
+    /* 1. Customer Service Icon (Base64 PNG) */
+    .icon-service {
+      background-image: url("data:image/png;base64,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");
+    }
+
+    /* 2. Menu/More Options Icon (Base64 PNG) */
+    .icon-more {
+      background-image: url("data:image/png;base64,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");
+    }
+
+    /* Body content spacing */
+    body {
+      background-color: #1a0a2e;
+      height: 100vh;
+      margin: 0;
+      padding-top: 60.7px;
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    /* Demo content */
+    .demo-content {
+      padding: 40px;
+      color: white;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- COMPLETE TOP NAVBAR -->
+  <nav class="navbar">
+    <!-- LEFT: Back Button -->
+    <div class="navbar__content-left">
+      <div class="back-btn">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <path d="M11.25 3.75L5.25 9L11.25 14.25" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"
+            stroke-linejoin="round"></path>
+        </svg>
+      </div>
+    </div>
+
+    <!-- CENTER: Brand Logo -->
+    <div class="navbar__content-center">
+      <!-- Exact Brand Logo SVG with all gradients and filters -->
+      <svg class="brand-logo-svg" viewBox="0 0 388 72" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <!-- 1. Gold Shimmer for the Crown Icon -->
+          <linearGradient id="blCrown" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#fff1b8"></stop>
+            <stop offset="50%" stop-color="#e8a735"></stop>
+            <stop offset="100%" stop-color="#c68a1d"></stop>
+          </linearGradient>
+
+          <!-- 2. Multi-stop Gold Gradient for the RAJALUCK Text -->
+          <linearGradient id="blText" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#fff8e1"></stop>
+            <stop offset="20%" stop-color="#ffd54f"></stop>
+            <stop offset="45%" stop-color="#e8a735"></stop>
+            <stop offset="55%" stop-color="#a06a10"></stop>
+            <stop offset="75%" stop-color="#e8a735"></stop>
+            <stop offset="100%" stop-color="#fff1b8"></stop>
+          </linearGradient>
+
+          <!-- 3. Glassy Drop Shadow Filter -->
+          <filter id="blShadow" x="-10%" y="-10%" width="130%" height="140%">
+            <feDropShadow dx="0" dy="2" stdDeviation="1.5" flood-color="rgba(0,0,0,0.35)"></feDropShadow>
+          </filter>
+
+          <!-- 4. Subtle Gold Underline Gradient -->
+          <linearGradient id="blLine" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="rgba(232,167,53,0)"></stop>
+            <stop offset="50%" stop-color="#ffd54f"></stop>
+            <stop offset="100%" stop-color="rgba(232,167,53,0)"></stop>
+          </linearGradient>
+        </defs>
+
+        <!-- Bottom Decorative Gold Line -->
+        <rect x="10" width="368" y="61" height="1.5" rx="0.75" fill="url(#blLine)" opacity="0.6"></rect>
+
+        <!-- Crown Icon -->
+        <text x="4" y="50" font-size="46" font-weight="900" fill="url(#blCrown)" font-family="serif">♛</text>
+
+        <!-- Brand Name Text with Filter and Letter Spacing -->
+        <text x="50" y="48" font-size="38" font-weight="900" letter-spacing="4" fill="url(#blText)"
+          filter="url(#blShadow)" font-family="Georgia, serif">RAJALUCK</text>
+      </svg>
+    </div>
+
+    <!-- RIGHT: Action Buttons -->
+    <div class="navbar__content-right">
+      <!-- Main Actions Container -->
+      <div class="WinGo__C-head-more">
+        <!-- 1. Customer Service Icon -->
+        <div class="head-more-icon icon-service"></div>
+
+        <!-- 2. Menu Icon -->
+        <div class="head-more-icon icon-more"></div>
+      </div>
+    </div>
+  </nav>
+
+
+</body>
+
+</html>
