@@ -511,8 +511,8 @@
     }
 
     .TimeLeft__C-num div {
-      width: 30px;
-      height: 30px;
+      width: 27px;
+      height: 27px;
       background-size: contain;
       background-repeat: no-repeat;
       background-position: center;
@@ -959,8 +959,8 @@
       }
 
       .TimeLeft__C-num div {
-        width: 28px;
-        height: 28px;
+        width: 25px;
+        height: 25px;
         margin-right: 6px;
       }
 
@@ -2295,13 +2295,7 @@
       <div class="TimeLeft__C-rule" onclick="toggleHowTo(true)">How to play</div>
       <div class="TimeLeft__C-name">Win Go 30s</div>
 
-      <div class="TimeLeft__C-num">
-        <div class="n2"></div>
-        <div class="n9"></div>
-        <div class="n0"></div>
-        <div class="n1"></div>
-        <div class="n9"></div>
-      </div>
+      <div class="TimeLeft__C-num"></div>
 
       <div class="TimeLeft__C-text">Time Remaining</div>
 
@@ -2701,134 +2695,137 @@
       });
     });
 
-    // ── GAME HISTORY LOGIC ──
-    async function fetchGameHistory() {
+    // ── HISTORY DATA LOGIC (Game Record & Trends) ──
+    async function fetchHistoryData() {
       try {
         const response = await fetch('https://wingobackendfinal.onrender.com/WinGo/WinGo_30S/GetHistoryIssuePage.json?pageNo=1&limit=10');
         const result = await response.json();
         
         if (result && result.data && result.data.list) {
           const history = result.data.list;
+          
+          // 1. Update Game Record Table
           const historyBody = document.querySelector('.GameRecord__C-body');
-          historyBody.innerHTML = '';
+          if (historyBody) {
+            historyBody.innerHTML = '';
+            history.forEach(item => {
+              const n = parseInt(item.number);
+              const bs = n >= 5 ? 'big' : 'small';
+              let numClass = '';
+              let dotsHtml = '';
 
-          history.forEach(item => {
-            const n = parseInt(item.number);
-            const bs = n >= 5 ? 'big' : 'small';
-            let numClass = '';
-            let dotsHtml = '';
+              if (n === 0) {
+                numClass = 'num-mixed-0';
+                dotsHtml = '<div class="GameRecord__C-origin-I" style="background:var(--red)"></div><div class="GameRecord__C-origin-I" style="background:var(--violet)"></div>';
+              } else if (n === 5) {
+                numClass = 'num-mixed-5';
+                dotsHtml = '<div class="GameRecord__C-origin-I" style="background:var(--green)"></div><div class="GameRecord__C-origin-I" style="background:var(--violet)"></div>';
+              } else if ([1, 3, 7, 9].includes(n)) {
+                numClass = 'num-green';
+                dotsHtml = '<div class="GameRecord__C-origin-I" style="background:var(--green)"></div>';
+              } else {
+                numClass = 'num-red';
+                dotsHtml = '<div class="GameRecord__C-origin-I" style="background:var(--red)"></div>';
+              }
 
-            if (n === 0) {
-              numClass = 'num-mixed-0';
-              dotsHtml = '<div class="GameRecord__C-origin-I" style="background:var(--red)"></div><div class="GameRecord__C-origin-I" style="background:var(--violet)"></div>';
-            } else if (n === 5) {
-              numClass = 'num-mixed-5';
-              dotsHtml = '<div class="GameRecord__C-origin-I" style="background:var(--green)"></div><div class="GameRecord__C-origin-I" style="background:var(--violet)"></div>';
-            } else if ([1, 3, 7, 9].includes(n)) {
-              numClass = 'num-green';
-              dotsHtml = '<div class="GameRecord__C-origin-I" style="background:var(--green)"></div>';
-            } else {
-              numClass = 'num-red';
-              dotsHtml = '<div class="GameRecord__C-origin-I" style="background:var(--red)"></div>';
-            }
+              const row = `
+                <div class="van-row">
+                  <div class="van-col--8">${item.issueNumber}</div>
+                  <div class="van-col--5">
+                    <div class="GameRecord__C-body-num ${numClass}">${n}</div>
+                  </div>
+                  <div class="van-col--5">${bs}</div>
+                  <div class="van-col--6">
+                    <div class="GameRecord__C-origin">${dotsHtml}</div>
+                  </div>
+                </div>`;
+              historyBody.innerHTML += row;
+            });
+          }
 
-            const row = `
-              <div class="van-row">
-                <div class="van-col--8">${item.issueNumber}</div>
-                <div class="van-col--5">
-                  <div class="GameRecord__C-body-num ${numClass}">${n}</div>
-                </div>
-                <div class="van-col--5">${bs}</div>
-                <div class="van-col--6">
-                  <div class="GameRecord__C-origin">${dotsHtml}</div>
-                </div>
-              </div>`;
-            historyBody.innerHTML += row;
-          });
+          // 2. Update Trend Chart Rows
+          const body2Container = document.querySelector('.Trend__C-body2');
+          if (body2Container) {
+            const svg = body2Container.querySelector('.line-overlay');
+            body2Container.innerHTML = '';
+            body2Container.appendChild(svg);
+
+            history.forEach(item => {
+              const row = document.createElement('div');
+              let numsHtml = '';
+              const n = parseInt(item.number);
+              const bs = n >= 5 ? 'B' : 'S';
+
+              for (let i = 0; i < 10; i++) {
+                numsHtml += `<div class="Trend__C-body2-Num-item ${i === n ? 'action' + i : ''}">${i}</div>`;
+              }
+
+              row.innerHTML = `
+                <div class="van-row">
+                  <div class="van-col--8">${item.issueNumber}</div>
+                  <div class="van-col--16">
+                    <div class="Trend__C-body2-Num">${numsHtml}</div>
+                    <div class="Trend__C-body2-Num-BS is${bs}">${bs}</div>
+                  </div>
+                </div>`;
+              body2Container.appendChild(row);
+            });
+            
+            // Redraw line after updating content
+            setTimeout(drawTrendLine, 100);
+          }
+
+          // 3. Update Last 5 Numbers in TimeLeft Section
+          const numContainer = document.querySelector('.TimeLeft__C-num');
+          if (numContainer) {
+            numContainer.innerHTML = '';
+            // Take last 5 issues from history
+            const last5 = history.slice(0, 5);
+            last5.forEach(item => {
+              const div = document.createElement('div');
+              div.className = `n${item.number}`;
+              numContainer.appendChild(div);
+            });
+          }
         }
       } catch (error) {
-        console.error("Failed to fetch game history:", error);
+        console.error("Failed to fetch history data:", error);
       }
     }
 
     // ── TREND STATISTICS LOGIC ──
-    async function fetchTrendStats() {
-      try {
-        const response = await fetch('https://wingobackendfinal.onrender.com/WinGo/WinGo_30S/GetTrendStatistics.json');
-        const result = await response.json();
-        
-        if (result && result.data) {
-          const stats = result.data;
-          
-          // Helper to update a stat row
-          const updateRow = (id, field) => {
-            const container = document.getElementById(id);
-            if (!container) return;
-            
-            let html = '';
-            // Ensure we follow 0-9 order
-            for (let i = 0; i < 10; i++) {
-              const item = stats.find(s => s.number === i);
-              const val = item ? item[field] : 0;
-              html += `<div>${val}</div>`;
-            }
-            container.innerHTML = html;
-          };
-
-          updateRow('stat-missing', 'missingCount');
-          updateRow('stat-avg-missing', 'avgMissing');
-          updateRow('stat-frequency', 'openCount');
-          updateRow('stat-max-continued', 'maxContinuous');
-        }
-      } catch (error) {
-        console.error("Failed to fetch trend statistics:", error);
-      }
-    }
-
-    // ── TREND BODY 2 & HISTORY LOGIC ──
-    async function fetchTrendHistory() {
-      try {
-        const response = await fetch('https://wingobackendfinal.onrender.com/WinGo/WinGo_30S/GetHistoryIssuePage.json?pageNo=1&limit=10');
-        const result = await response.json();
-        
-        if (result && result.data && result.data.list) {
-          const history = result.data.list;
-          const body2Container = document.querySelector('.Trend__C-body2');
-          
-          // Clear existing rows except SVG
-          const svg = body2Container.querySelector('.line-overlay');
-          body2Container.innerHTML = '';
-          body2Container.appendChild(svg);
-
-          history.forEach(item => {
-            const row = document.createElement('div');
-            let numsHtml = '';
-            const n = parseInt(item.number);
-            const bs = n >= 5 ? 'B' : 'S';
-
-            for (let i = 0; i < 10; i++) {
-              numsHtml += `<div class="Trend__C-body2-Num-item ${i === n ? 'action' + i : ''}">${i}</div>`;
-            }
-
-            row.innerHTML = `
-              <div class="van-row">
-                <div class="van-col--8">${item.issueNumber}</div>
-                <div class="van-col--16">
-                  <div class="Trend__C-body2-Num">${numsHtml}</div>
-                  <div class="Trend__C-body2-Num-BS is${bs}">${bs}</div>
-                </div>
-              </div>`;
-
-            body2Container.appendChild(row);
-          });
-          
-          // Redraw line after updating content
-          setTimeout(drawTrendLine, 100);
-        }
-      } catch (error) {
-        console.error("Failed to fetch trend history:", error);
-      }
-    }
+     async function fetchTrendStats() {
+       try {
+         const response = await fetch('https://wingobackendfinal.onrender.com/WinGo/WinGo_30S/GetTrendStatistics.json');
+         const result = await response.json();
+         
+         if (result && result.data) {
+           const stats = result.data;
+           
+           // Helper to update a stat row
+           const updateRow = (id, field) => {
+             const container = document.getElementById(id);
+             if (!container) return;
+             
+             let html = '';
+             // Ensure we follow 0-9 order
+             for (let i = 0; i < 10; i++) {
+               const item = stats.find(s => s.number === i);
+               const val = item ? item[field] : 0;
+               html += `<div>${val}</div>`;
+             }
+             container.innerHTML = html;
+           };
+ 
+           updateRow('stat-missing', 'missingCount');
+           updateRow('stat-avg-missing', 'avgMissing');
+           updateRow('stat-frequency', 'openCount');
+           updateRow('stat-max-continued', 'maxContinuous');
+         }
+       } catch (error) {
+         console.error("Failed to fetch trend statistics:", error);
+       }
+     }
 
     // Dynamic Trend Line Generation
     function drawTrendLine() {
@@ -2868,20 +2865,19 @@
     }
 
     // Draw initially and on window resize/tab switch
-    fetchGameHistory();
+    fetchHistoryData();
     fetchTrendStats();
-    fetchTrendHistory();
     window.addEventListener('resize', drawTrendLine);
 
-    // Also redraw when switching to Trend tab
+    // Also redraw when switching to tabs
     document.querySelectorAll('.RecordNav__C div').forEach(tab => {
       tab.addEventListener('click', () => {
         const type = tab.getAttribute('data-tab');
-        if (type === 'record') {
-          fetchGameHistory();
+        if (type === 'game') {
+          fetchHistoryData();
         } else if (type === 'trend') {
+          fetchHistoryData();
           fetchTrendStats();
-          fetchTrendHistory();
         }
       });
     });
@@ -3006,12 +3002,11 @@
         
         // Background sync to fetch the new 'next' round and confirm everything
         syncGameData();
-        fetchTrendStats();
-        fetchTrendHistory();
         
-        // Delay fetching game history by 2 seconds to allow backend to process the result
+        // Delay fetching history/stats by 2 seconds to allow backend to process the result
         setTimeout(() => {
-          fetchGameHistory();
+          fetchHistoryData();
+          fetchTrendStats();
         }, 2000);
 
         // Keep overlay for a brief moment then remove
