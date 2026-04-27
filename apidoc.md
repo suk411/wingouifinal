@@ -107,3 +107,23 @@ Returns statistics for each number (0-9).
 - `maxContinuous` - Longest consecutive winning streak
 
 ---
+
+### 4. User Data
+```
+GET /wingo/user
+```
+
+Returns user data (requires JWT token).
+
+**Headers**
+- `Authorization: Bearer <token>`
+
+**Response**
+```json
+{
+  "userId": "user123",
+  "balance": 1000.50
+}
+```
+
+---
