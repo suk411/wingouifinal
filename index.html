@@ -2866,7 +2866,6 @@
 
     // Draw initially and on window resize/tab switch
     fetchHistoryData();
-    fetchTrendStats();
     window.addEventListener('resize', drawTrendLine);
 
     // Also redraw when switching to tabs
@@ -3003,10 +3002,9 @@
         // Background sync to fetch the new 'next' round and confirm everything
         syncGameData();
         
-        // Delay fetching history/stats by 2 seconds to allow backend to process the result
+        // Delay fetching history by 2 seconds to allow backend to process the result
         setTimeout(() => {
           fetchHistoryData();
-          fetchTrendStats();
         }, 2000);
 
         // Keep overlay for a brief moment then remove
