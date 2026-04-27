@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mini Postman - WinGo API</title>
+
+<style>
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f5f5f5;
+  }
+
+  .container {
+    display: flex;
+    height: 100vh;
+  }
+
+  .panel {
+    flex: 1;
+    padding: 15px;
+    box-sizing: border-box;
+  }
+
+  .left {
+    background: #ffffff;
+    border-right: 1px solid #ddd;
+  }
+
+  .right {
+    background: #fafafa;
+  }
+
+  input, select, textarea, button {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 8px;
+    box-sizing: border-box;
+    font-size: 14px;
+  }
+
+  textarea {
+    height: 150px;
+    resize: vertical;
+  }
+
+  button {
+    background: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background: #0056b3;
+  }
+
+  pre {
+    background: #000;
+    color: #0f0;
+    padding: 10px;
+    height: calc(100vh - 80px);
+    overflow: auto;
+    font-size: 13px;
+  }
+
+  h3 {
+    margin-top: 0;
+  }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <!-- LEFT PANEL -->
+  <div class="panel left">
+    <h3>Request</h3>
+
+    <select id="method">
+      <option>GET</option>
+      <option>POST</option>
+    </select>
+
+    <input type="text" id="url" placeholder="Enter API URL">
+
+    <textarea id="body" placeholder="Request Body (JSON for POST)"></textarea>
+
+    <button onclick="sendRequest()">Send Request</button>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="panel right">
+    <h3>Response</h3>
+    <pre id="response">Response will appear here...</pre>
+  </div>
+
+</div>
+
+<script>
+async function sendRequest() {
+  const method = document.getElementById("method").value;
+  const url = document.getElementById("url").value;
+  const bodyText = document.getElementById("body").value;
+  const responseBox = document.getElementById("response");
+
+  responseBox.textContent = "Loading...";
+
+  try {
+    const options = {
+      method: method,
+      headers: {
+        "Content-Type": "application/json"
+      }
+    };
+
+    if (method === "POST" && bodyText) {
+      options.body = bodyText;
+    }
+
+    const res = await fetch(url, options);
+    const text = await res.text();
+
+    try {
+      const json = JSON.parse(text);
+      responseBox.textContent = JSON.stringify(json, null, 2);
+    } catch {
+      responseBox.textContent = text;
+    }
+
+  } catch (err) {
+    responseBox.textContent = "Error: " + err.message;
+  }
+}
+</script>
+
+</body>
+</html>
+

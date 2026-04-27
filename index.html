@@ -25,7 +25,6 @@
       --purple-grad: linear-gradient(135deg, #7C3AED 0%, #A855F7 100%);
       --glass-container-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
       --active-item-bg: linear-gradient(rgba(255, 200, 55, 0.25) 0%, rgba(168, 120, 255, 0.1) 100%);
-      --gold-light: rgb(255, 200, 55);
       --muted-text: rgba(255, 255, 255, 0.45);
       --bg-glass-main: linear-gradient(135deg, rgba(26, 10, 46, 0.88) 0%, rgba(45, 21, 96, 0.78) 50%, rgba(58, 29, 114, 0.88) 100%);
     }
@@ -301,10 +300,6 @@
       padding: 10px 5px;
     }
 
-    .GameList__C-item.active {
-      cursor: pointer;
-    }
-
     .GameList__C-item:not(.active) {
       cursor: default;
     }
@@ -325,6 +320,7 @@
     }
 
     .GameList__C-item.active {
+      cursor: pointer;
       background-image: var(--active-item-bg);
       box-shadow:
         inset 0 -1.3px 5.2px rgba(255, 200, 55, 0.15),
@@ -501,36 +497,55 @@
     .TimeLeft__C-name {
       position: absolute;
       top: 47.5px;
-      left: 14.5px;
+      left: 20px;
       color: #fffb;
       z-index: 3;
     }
 
     .TimeLeft__C-num {
       position: absolute;
-      bottom: 15px;
+      bottom: 12px;
       left: 15px;
       display: flex;
       z-index: 3;
     }
 
     .TimeLeft__C-num div {
-      width: 33px;
-      height: 33px;
+      width: 30px;
+      height: 30px;
       background-size: contain;
       background-repeat: no-repeat;
       background-position: center;
-      margin-right: 8px;
+      margin-right: 7px;
     }
 
     .TimeLeft__C-text {
       position: absolute;
       top: 15px;
-      right: 15px;
+      right: 20px;
       color: rgba(255, 255, 255, 0.7);
       z-index: 3;
       font-size: 14px;
       font-weight: 500;
+    }
+
+    .TimeLeft__C-id {
+      position: absolute;
+      top: 85px;
+      right: 20px;
+      color: #fffb;
+      font-size: 14px;
+      font-weight: 600;
+      z-index: 3;
+    }
+
+    .TimeLeft__C-timer-container {
+      position: absolute;
+      top: 43px;
+      right: 20px;
+      display: flex;
+      align-items: center;
+      z-index: 3;
     }
 
     /* ==================== BETTING CARD (Combined) ==================== */
@@ -925,7 +940,7 @@
 
       .TimeLeft__C-name {
         top: 40px;
-        left: 10px;
+        left: 20x;
         font-size: 12px;
       }
 
@@ -950,9 +965,8 @@
       }
 
       .TimeLeft__C-id {
-        bottom: 12px;
-        right: 12px;
-        font-size: 10px;
+        top: 85px;
+        font-size: 12px;
       }
 
       /* Betting card */
@@ -1110,17 +1124,17 @@
     .GameRecord__C-head,
     .Trend__C-head {
       position: relative;
-      height: 55px;
+      height: 40px;
       display: flex;
       align-items: center;
       background: linear-gradient(135deg, rgba(255, 200, 55, 0.08), rgba(255, 255, 255, 0.04) 50%, rgba(255, 200, 55, 0.06));
       border-radius: 10px;
       color: #ffd54f;
       font-weight: 700;
-      font-size: 15.8px;
+      font-size: 13px;
       border: 1px solid rgba(255, 200, 55, 0.15);
       box-sizing: border-box;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
 
     .GameRecord__C-head::before,
@@ -1128,9 +1142,9 @@
       content: "";
       position: absolute;
       left: 0;
-      top: 6px;
-      width: 2.6px;
-      height: 41px;
+      top: 4px;
+      width: 2px;
+      height: 30px;
       background: linear-gradient(#ffd54f, #e8a820);
       border-radius: 2px 0 0 2px;
     }
@@ -1156,10 +1170,10 @@
       display: flex;
       width: 100%;
       align-items: center;
-      min-height: 50px;
+      min-height: 36px;
       background: linear-gradient(rgba(255, 255, 255, 0.024), rgba(255, 255, 255, 0.01));
       border-bottom: 0.5px solid rgba(255, 255, 255, 0.05);
-      padding: 0 12px;
+      padding: 0 8px;
       box-sizing: border-box;
     }
 
@@ -1170,25 +1184,29 @@
     .van-col--8 {
       width: 33.3%;
       text-align: center;
+      font-size: 12px;
     }
 
     .van-col--5 {
       width: 20.8%;
       text-align: center;
+      font-size: 12px;
     }
 
     .van-col--6 {
       width: 25.1%;
       text-align: center;
+      font-size: 12px;
     }
 
     .van-col--16 {
       width: 66.6%;
       text-align: center;
+      font-size: 12px;
     }
 
     .GameRecord__C-body-num {
-      font-size: 18px;
+      font-size: 14px;
       font-weight: 900;
     }
 
@@ -1225,32 +1243,80 @@
     }
 
     .Trend__C-body1 {
+      width: 100%;
+      display: block;
+      color: rgba(255, 255, 255, 0.7);
+      padding: 0 0 14px 0;
+      text-align: center;
       background: linear-gradient(rgba(255, 255, 255, 0.024), rgba(255, 255, 255, 0.01));
-      padding-bottom: 20px;
-      color: rgba(255, 255, 255, 0.75);
-      font-size: 15.8px;
       border-radius: 10px 10px 0 0;
     }
 
     .Trend__C-body1-line {
       display: flex;
+      width: 100%;
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.6);
       align-items: center;
-      justify-content: space-between;
-      padding: 16px 15px 0 13px;
-      font-size: 14.2px;
     }
 
+    /* First line specific styling (Header label) */
+    .Trend__C-body1-line:first-child {
+      height: 28.5px;
+      padding: 13px 0 0 10px;
+      text-align: left;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    /* General rows styling */
     .Trend__C-body1-line:not(:first-child) {
-      margin-top: 12px;
+      height: 18px;
+      margin-top: 10px;
     }
 
+    /* Label on the left */
+    .Trend__C-body1-line > div:first-child {
+      width: 139px;
+      height: 18px;
+      padding-left: 10px;
+      text-align: left;
+      flex: 0 0 auto;
+    }
+
+    /* Container for the numbers */
     .Trend__C-body1-line-num {
       display: flex;
-      gap: 8px;
-      color: #ffc837;
+      flex: 1;
+      height: 18px;
+      justify-content: space-between;
+      padding-right: 7.5px;
     }
 
-    .lottery .Trend__C-body1-line-num div {
+    /* Individual number styles */
+    .Trend__C-body1-line-num > div,
+    .Trend__C-body1-line-num > span {
+      width: 18px;
+      height: 18px;
+      line-height: 18px;
+      border: 0.8px solid rgba(255, 200, 55, 0.35);
+      color: rgb(255, 213, 79);
+      text-align: center;
+      box-sizing: border-box;
+      font-size: 10px;
+      display: block;
+    }
+
+    /* Circular styling for the "Winning numbers" row */
+    .Trend__C-body1-line.lottery .Trend__C-body1-line-num > div {
+      border-radius: 50%;
+    }
+
+    /* Consistency for other rows */
+    .Trend__C-body1-line:not(.lottery) .Trend__C-body1-line-num > div,
+    .Trend__C-body1-line:not(.lottery) .Trend__C-body1-line-num > span {
+      border-radius: 0;
+      border-color: transparent;
       color: rgba(255, 255, 255, 0.4);
     }
 
@@ -1265,7 +1331,7 @@
     }
 
     .Trend__C-body2>div {
-      height: var(--row-height, 72px);
+      height: var(--row-height, 50px);
       display: flex;
       align-items: center;
       padding: 0 10px;
@@ -1295,7 +1361,7 @@
     .Trend__C-body2 .van-col--8 {
       width: 30%;
       color: #999;
-      font-size: 13px;
+      font-size: 11px;
     }
 
     .Trend__C-body2 .van-col--16 {
@@ -1310,16 +1376,16 @@
       display: flex;
       flex: 1;
       justify-content: space-between;
-      padding-right: 15px;
+      padding-right: 7.5px;
     }
 
     .Trend__C-body2-Num-item {
-      width: var(--dot-size, 22px);
-      height: var(--dot-size, 22px);
-      line-height: var(--dot-size, 22px);
+      width: var(--dot-size, 18px);
+      height: var(--dot-size, 18px);
+      line-height: var(--dot-size, 18px);
       text-align: center;
       border-radius: 50%;
-      font-size: 12px;
+      font-size: 10px;
       color: #666;
       position: relative;
     }
@@ -2239,17 +2305,15 @@
 
       <div class="TimeLeft__C-text">Time Remaining</div>
 
-      <div style="position: absolute; top: 43px; right: 15px; display: flex; align-items: center; z-index: 3;">
+      <div class="TimeLeft__C-timer-container">
         <div class="TimeLeft__C-time-digit"><span>0</span></div>
         <div class="TimeLeft__C-time-digit"><span>0</span></div>
         <div class="TimeLeft__C-time-colon">:</div>
-        <div class="TimeLeft__C-time-digit"><span>1</span></div>
-        <div class="TimeLeft__C-time-digit"><span>6</span></div>
+        <div class="TimeLeft__C-time-digit"><span>0</span></div>
+        <div class="TimeLeft__C-time-digit"><span>0</span></div>
       </div>
 
-      <div class="TimeLeft__C-id"
-        style="position: absolute; bottom: 15px; right: 15px; color: #fffb; font-size: 12px; z-index: 3;">20260425302446
-      </div>
+      <div class="TimeLeft__C-id">00000000000000</div>
     </div>
 
     <!-- Betting Card (Combined) -->
@@ -2327,45 +2391,7 @@
         </div>
       </div>
 
-      <div class="GameRecord__C-body">
-        <div class="van-row">
-          <div class="van-col--8">20260425302540</div>
-          <div class="van-col--5">
-            <div class="GameRecord__C-body-num num-red">6</div>
-          </div>
-          <div class="van-col--5">Big</div>
-          <div class="van-col--6">
-            <div class="GameRecord__C-origin">
-              <div class="GameRecord__C-origin-I" style="background:var(--red)"></div>
-            </div>
-          </div>
-        </div>
-        <div class="van-row">
-          <div class="van-col--8">20260425302534</div>
-          <div class="van-col--5">
-            <div class="GameRecord__C-body-num num-green">7</div>
-          </div>
-          <div class="van-col--5">Big</div>
-          <div class="van-col--6">
-            <div class="GameRecord__C-origin">
-              <div class="GameRecord__C-origin-I" style="background:var(--green)"></div>
-            </div>
-          </div>
-        </div>
-        <div class="van-row">
-          <div class="van-col--8">20260425302530</div>
-          <div class="van-col--5">
-            <div class="GameRecord__C-body-num num-mixed-0">0</div>
-          </div>
-          <div class="van-col--5">small</div>
-          <div class="van-col--6">
-            <div class="GameRecord__C-origin">
-              <div class="GameRecord__C-origin-I" style="background:var(--red)"></div>
-              <div class="GameRecord__C-origin-I" style="background:var(--violet)"></div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <div class="GameRecord__C-body"></div>
 
       <div class="MyGameRecord__C-foot">
         <div class="MyGameRecord__C-foot-previous disabled">
@@ -2392,46 +2418,29 @@
       </div>
 
       <div class="Trend__C-body1">
-        <div class="Trend__C-body1-line" style="color:#fff; font-weight:600;">Betting Assistant (last 100 issues)</div>
+        <div class="Trend__C-body1-line">Betting Assistant (last 100 issues)</div>
 
         <div class="Trend__C-body1-line lottery">
           <div>Winning numbers</div>
           <div class="Trend__C-body1-line-num">
-            <div>0</div>
-            <div>1</div>
-            <div>2</div>
-            <div>3</div>
-            <div>4</div>
-            <div>5</div>
-            <div>6</div>
-            <div>7</div>
-            <div>8</div>
-            <div>9</div>
+            <div>0</div><div>1</div><div>2</div><div>3</div><div>4</div><div>5</div><div>6</div><div>7</div><div>8</div><div>9</div>
           </div>
         </div>
         <div class="Trend__C-body1-line">
           <div>Missing</div>
-          <div class="Trend__C-body1-line-num">
-            <span>7</span><span>6</span><span>0</span><span>11</span><span>29</span><span>4</span><span>51</span><span>13</span><span>1</span><span>2</span>
-          </div>
+          <div class="Trend__C-body1-line-num" id="stat-missing"></div>
         </div>
         <div class="Trend__C-body1-line">
           <div>Avg Missing</div>
-          <div class="Trend__C-body1-line-num">
-            <span>13</span><span>8</span><span>5</span><span>15</span><span>11</span><span>7</span><span>13</span><span>10</span><span>10</span><span>6</span>
-          </div>
+          <div class="Trend__C-body1-line-num" id="stat-avg-missing"></div>
         </div>
         <div class="Trend__C-body1-line">
           <div>Frequency</div>
-          <div class="Trend__C-body1-line-num">
-            <span>7</span><span>11</span><span>17</span><span>5</span><span>8</span><span>16</span><span>6</span><span>8</span><span>8</span><span>14</span>
-          </div>
+          <div class="Trend__C-body1-line-num" id="stat-frequency"></div>
         </div>
         <div class="Trend__C-body1-line">
           <div>Max Continued</div>
-          <div class="Trend__C-body1-line-num">
-            <span>1</span><span>2</span><span>2</span><span>1</span><span>2</span><span>2</span><span>1</span><span>1</span><span>1</span><span>2</span>
-          </div>
+          <div class="Trend__C-body1-line-num" id="stat-max-continued"></div>
         </div>
       </div>
 
@@ -2692,41 +2701,134 @@
       });
     });
 
-    // Trend Body 2 Data & Dynamic Generation
-    const trendData = [
-      { id: "20260426302407", n: 0, bs: "S" },
-      { id: "20260426302406", n: 1, bs: "S" },
-      { id: "20260426302405", n: 1, bs: "S" },
-      { id: "20260426302404", n: 7, bs: "B" },
-      { id: "20260426302403", n: 2, bs: "S" },
-      { id: "20260426302402", n: 9, bs: "B" },
-      { id: "20260426302401", n: 0, bs: "S" },
-      { id: "20260426302400", n: 9, bs: "B" },
-      { id: "20260426302399", n: 7, bs: "B" },
-      { id: "20260426302398", n: 2, bs: "S" }
-    ];
+    // ── GAME HISTORY LOGIC ──
+    async function fetchGameHistory() {
+      try {
+        const response = await fetch('https://wingobackendfinal.onrender.com/WinGo/WinGo_30S/GetHistoryIssuePage.json?pageNo=1&limit=10');
+        const result = await response.json();
+        
+        if (result && result.data && result.data.list) {
+          const history = result.data.list;
+          const historyBody = document.querySelector('.GameRecord__C-body');
+          historyBody.innerHTML = '';
 
-    const body2Container = document.querySelector('.Trend__C-body2');
+          history.forEach(item => {
+            const n = parseInt(item.number);
+            const bs = n >= 5 ? 'big' : 'small';
+            let numClass = '';
+            let dotsHtml = '';
 
-    trendData.forEach(item => {
-      const row = document.createElement('div');
-      let numsHtml = '';
+            if (n === 0) {
+              numClass = 'num-mixed-0';
+              dotsHtml = '<div class="GameRecord__C-origin-I" style="background:var(--red)"></div><div class="GameRecord__C-origin-I" style="background:var(--violet)"></div>';
+            } else if (n === 5) {
+              numClass = 'num-mixed-5';
+              dotsHtml = '<div class="GameRecord__C-origin-I" style="background:var(--green)"></div><div class="GameRecord__C-origin-I" style="background:var(--violet)"></div>';
+            } else if ([1, 3, 7, 9].includes(n)) {
+              numClass = 'num-green';
+              dotsHtml = '<div class="GameRecord__C-origin-I" style="background:var(--green)"></div>';
+            } else {
+              numClass = 'num-red';
+              dotsHtml = '<div class="GameRecord__C-origin-I" style="background:var(--red)"></div>';
+            }
 
-      for (let i = 0; i < 10; i++) {
-        numsHtml += `<div class="Trend__C-body2-Num-item ${i === item.n ? 'action' + i : ''}">${i}</div>`;
+            const row = `
+              <div class="van-row">
+                <div class="van-col--8">${item.issueNumber}</div>
+                <div class="van-col--5">
+                  <div class="GameRecord__C-body-num ${numClass}">${n}</div>
+                </div>
+                <div class="van-col--5">${bs}</div>
+                <div class="van-col--6">
+                  <div class="GameRecord__C-origin">${dotsHtml}</div>
+                </div>
+              </div>`;
+            historyBody.innerHTML += row;
+          });
+        }
+      } catch (error) {
+        console.error("Failed to fetch game history:", error);
       }
+    }
 
-      row.innerHTML = `
-        <div class="van-row">
-          <div class="van-col--8">${item.id}</div>
-          <div class="van-col--16">
-            <div class="Trend__C-body2-Num">${numsHtml}</div>
-            <div class="Trend__C-body2-Num-BS is${item.bs}">${item.bs}</div>
-          </div>
-        </div>`;
+    // ── TREND STATISTICS LOGIC ──
+    async function fetchTrendStats() {
+      try {
+        const response = await fetch('https://wingobackendfinal.onrender.com/WinGo/WinGo_30S/GetTrendStatistics.json');
+        const result = await response.json();
+        
+        if (result && result.data) {
+          const stats = result.data;
+          
+          // Helper to update a stat row
+          const updateRow = (id, field) => {
+            const container = document.getElementById(id);
+            if (!container) return;
+            
+            let html = '';
+            // Ensure we follow 0-9 order
+            for (let i = 0; i < 10; i++) {
+              const item = stats.find(s => s.number === i);
+              const val = item ? item[field] : 0;
+              html += `<div>${val}</div>`;
+            }
+            container.innerHTML = html;
+          };
 
-      body2Container.appendChild(row);
-    });
+          updateRow('stat-missing', 'missingCount');
+          updateRow('stat-avg-missing', 'avgMissing');
+          updateRow('stat-frequency', 'openCount');
+          updateRow('stat-max-continued', 'maxContinuous');
+        }
+      } catch (error) {
+        console.error("Failed to fetch trend statistics:", error);
+      }
+    }
+
+    // ── TREND BODY 2 & HISTORY LOGIC ──
+    async function fetchTrendHistory() {
+      try {
+        const response = await fetch('https://wingobackendfinal.onrender.com/WinGo/WinGo_30S/GetHistoryIssuePage.json?pageNo=1&limit=10');
+        const result = await response.json();
+        
+        if (result && result.data && result.data.list) {
+          const history = result.data.list;
+          const body2Container = document.querySelector('.Trend__C-body2');
+          
+          // Clear existing rows except SVG
+          const svg = body2Container.querySelector('.line-overlay');
+          body2Container.innerHTML = '';
+          body2Container.appendChild(svg);
+
+          history.forEach(item => {
+            const row = document.createElement('div');
+            let numsHtml = '';
+            const n = parseInt(item.number);
+            const bs = n >= 5 ? 'B' : 'S';
+
+            for (let i = 0; i < 10; i++) {
+              numsHtml += `<div class="Trend__C-body2-Num-item ${i === n ? 'action' + i : ''}">${i}</div>`;
+            }
+
+            row.innerHTML = `
+              <div class="van-row">
+                <div class="van-col--8">${item.issueNumber}</div>
+                <div class="van-col--16">
+                  <div class="Trend__C-body2-Num">${numsHtml}</div>
+                  <div class="Trend__C-body2-Num-BS is${bs}">${bs}</div>
+                </div>
+              </div>`;
+
+            body2Container.appendChild(row);
+          });
+          
+          // Redraw line after updating content
+          setTimeout(drawTrendLine, 100);
+        }
+      } catch (error) {
+        console.error("Failed to fetch trend history:", error);
+      }
+    }
 
     // Dynamic Trend Line Generation
     function drawTrendLine() {
@@ -2766,34 +2868,87 @@
     }
 
     // Draw initially and on window resize/tab switch
-    setTimeout(drawTrendLine, 100);
+    fetchGameHistory();
+    fetchTrendStats();
+    fetchTrendHistory();
     window.addEventListener('resize', drawTrendLine);
 
     // Also redraw when switching to Trend tab
     document.querySelectorAll('.RecordNav__C div').forEach(tab => {
       tab.addEventListener('click', () => {
-        if (tab.getAttribute('data-tab') === 'trend') {
-          setTimeout(drawTrendLine, 50);
+        const type = tab.getAttribute('data-tab');
+        if (type === 'record') {
+          fetchGameHistory();
+        } else if (type === 'trend') {
+          fetchTrendStats();
+          fetchTrendHistory();
         }
       });
     });
 
     // ── TIMER & LAST 5S COUNTDOWN LOGIC ──
-    let timeRemaining = 30; // 30 seconds for "Win Go 30s"
+    let timeRemaining = 30; // Initial fallback
+    let currentIssue = "";
+    let nextRoundData = null; // Store next round info for immediate transition
     const timerDigits = document.querySelectorAll('.TimeLeft__C-time-digit span');
     const countdownOverlay = document.getElementById('countdownOverlay');
     const cdDigit1 = document.getElementById('cdDigit1');
     const cdDigit2 = document.getElementById('cdDigit2');
+    const issueElement = document.querySelector('.TimeLeft__C-id');
 
     // Audio assets
     const audioDi1 = new Audio('assets/mp3/di1.mp3');
     const audioDi2 = new Audio('assets/mp3/di2.mp3');
 
-    function updateTimerDisplay() {
-      const minutes = Math.floor(timeRemaining / 60);
-      const seconds = timeRemaining % 60;
+    let timerLoopStarted = false;
 
-      // Update header timer (MM:SS)
+    async function syncGameData() {
+      try {
+        const response = await fetch('https://wingobackendfinal.onrender.com/WinGo/WinGo_30S.json');
+        const data = await response.json();
+        
+        if (data && data.current) {
+          const now = Date.now();
+          const serverTimeRemaining = Math.max(0, Math.floor((data.current.endTime - now) / 1000));
+          
+          // Update issue number from current round
+          currentIssue = data.current.issueNumber;
+          if (issueElement) {
+            issueElement.textContent = currentIssue;
+          }
+          
+          // Store next round data for seamless transitions
+          if (data.next) {
+            nextRoundData = data.next;
+          }
+          
+          // Sync timeRemaining if drift is large or it's the first sync
+          if (!timerLoopStarted || Math.abs(timeRemaining - serverTimeRemaining) > 2) {
+            timeRemaining = serverTimeRemaining;
+          }
+          
+          // Start the timer loop if it hasn't started yet
+          if (!timerLoopStarted) {
+            timerLoopStarted = true;
+            updateTimerDisplay();
+          } else {
+            refreshTimerUI();
+          }
+
+          // Ensure countdown overlay state matches current time
+          if (timeRemaining > 5) {
+            countdownOverlay.classList.remove('active');
+          }
+        }
+      } catch (error) {
+        console.error("Failed to sync game data:", error);
+      }
+    }
+
+    function refreshTimerUI() {
+      const minutes = Math.floor(Math.max(0, timeRemaining) / 60);
+      const seconds = Math.max(0, timeRemaining) % 60;
+
       const minStr = String(minutes).padStart(2, '0');
       const secStr = String(seconds).padStart(2, '0');
 
@@ -2803,21 +2958,25 @@
         timerDigits[2].textContent = secStr[0];
         timerDigits[3].textContent = secStr[1];
       }
+    }
 
-      // Last 5 seconds logic (5 down to 0)
-      if (timeRemaining <= 5 && timeRemaining >= 0) {
+    function updateTimerDisplay() {
+      refreshTimerUI();
+
+      // Last 5 seconds logic (5 down to 1)
+      if (timeRemaining <= 5 && timeRemaining >= 1) {
         countdownOverlay.classList.add('active');
         cdDigit1.textContent = '0';
         cdDigit2.textContent = timeRemaining;
 
-        // Play audio: di1 when 5,4,3,2 are gone (at 4,3,2,1)
-        if (timeRemaining >= 1 && timeRemaining <= 4 && audioDi1.readyState >= 2) {
+        // Play audio: di1 when 5,4,3,2 are gone (at 5,4,3,2)
+        if (timeRemaining >= 2 && timeRemaining <= 5 && audioDi1.readyState >= 2) {
           audioDi1.currentTime = 0;
           audioDi1.play().catch(e => console.log("Audio play failed:", e));
         }
 
-        // Final sound: di2 when 1 is gone (at 0)
-        if (timeRemaining === 0 && audioDi2.readyState >= 2) {
+        // Final sound: di2 when 1 is left
+        if (timeRemaining === 1 && audioDi2.readyState >= 2) {
           audioDi2.currentTime = 0;
           audioDi2.play().catch(e => console.log("Audio play failed:", e));
         }
@@ -2827,22 +2986,54 @@
         if (betOverlay.classList.contains('active')) {
           closePopupBtn();
         }
+      } else if (timeRemaining === 0) {
+        // Show 0:0 for the final moment
+        cdDigit1.textContent = '0';
+        cdDigit2.textContent = '0';
+        countdownOverlay.classList.add('active');
+        
+        // Transition to next round IMMEDIATELY using stored next data for better UX
+        if (nextRoundData) {
+          currentIssue = nextRoundData.issueNumber;
+          if (issueElement) issueElement.textContent = currentIssue;
+          
+          const now = Date.now();
+          timeRemaining = Math.max(0, Math.floor((nextRoundData.endTime - now) / 1000));
+        } else {
+          // Fallback if nextRoundData is missing (unlikely but safe)
+          timeRemaining = 30;
+        }
+        
+        // Background sync to fetch the new 'next' round and confirm everything
+        syncGameData();
+        fetchTrendStats();
+        fetchTrendHistory();
+        
+        // Delay fetching game history by 2 seconds to allow backend to process the result
+        setTimeout(() => {
+          fetchGameHistory();
+        }, 2000);
+
+        // Keep overlay for a brief moment then remove
+        setTimeout(() => {
+          if (timeRemaining > 5) {
+            countdownOverlay.classList.remove('active');
+          }
+        }, 500);
       } else {
         countdownOverlay.classList.remove('active');
       }
 
-      if (timeRemaining === -1) {
-        // Reset to 30 for demo purposes
-        timeRemaining = 30;
-        countdownOverlay.classList.remove('active');
+      if (timeRemaining > 0) {
+        timeRemaining--;
       }
 
-      timeRemaining--;
+      // Keep the loop running every second
       setTimeout(updateTimerDisplay, 1000);
     }
 
-    // Start the timer
-    updateTimerDisplay();
+    // Initial sync
+    syncGameData();
 
     // ── HOW TO PLAY POPUP LOGIC ──
     function toggleHowTo(show) {
