@@ -1,0 +1,228 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> MY Game Record</title>
+    <style>
+        body {
+            background-color: #1a1a1a; /* Dark background to match component context */
+            margin: 0;
+            padding: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, "Segoe UI", Arial, Roboto, "PingFang SC", miui, "Hiragino Sans GB", "Microsoft Yahei", sans-serif;
+        }
+
+        .MyGameRecord__C {
+            width: calc(100% - .69333rem);
+            max-width: 400px; /* Centered for demo */
+            margin: .32rem auto 0;
+            display: block;
+            color: #fff;
+        }
+
+        /* Header */
+        .MyGameRecord__C-head {
+            display: flex;
+            justify-content: flex-end;
+            padding: .32rem .32rem 0;
+            border-radius: .21333rem .21333rem 0 0;
+            border: .01333rem solid rgba(255, 200, 55, .1);
+            height: 44px;
+        }
+
+        .MyGameRecord__C-head-moreB {
+            display: block;
+            padding: 0 27.7px 0 9.2px;
+            color: rgb(255, 213, 79);
+            border-radius: 10.26px;
+            border: 0.8px solid rgba(255, 200, 55, 0.35);
+            font-size: 12.3px;
+            line-height: 30.7px;
+            height: 30.7px;
+            cursor: pointer;
+        }
+
+        /* Body */
+        .MyGameRecord__C-body {
+            padding: 0 .32rem;
+            color: rgba(255, 255, 255, 0.9);
+            border-radius: 0 0 .21333rem .21333rem;
+            overflow: hidden;
+            border: .01333rem solid rgba(255, 200, 55, .1);
+        }
+
+        .MyGameRecordList__C-item {
+            display: flex;
+            align-items: center;
+            padding: 14.36px 0;
+            border-bottom: 0.8px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Left Icon/Value */
+        .MyGameRecordList__C-item-l {
+            width: 36.93px;
+            height: 36.93px;
+            margin-right: 11.28px;
+            background-color: rgb(109, 167, 244);
+            color: rgb(255, 255, 255);
+            border-radius: 10.26px;
+            font-size: 12.3px;
+            line-height: 36.9px;
+            text-align: center;
+        }
+
+        /* Specific item-l colors */
+        .MyGameRecordList__C-item-l-green { background-color: #2e7d32; }
+        .MyGameRecordList__C-item-l-red { background-color: #d32f2f; }
+        .MyGameRecordList__C-item-l-small { background-color: #6da7f4; }
+        .MyGameRecordList__C-item-l-3 { background-color: #8e44ad; }
+
+        /* Middle Info */
+        .MyGameRecordList__C-item-m {
+            flex: 1;
+        }
+
+        .MyGameRecordList__C-item-m-top {
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 14.36px;
+            margin-bottom: 9.23px;
+            line-height: 17.4px;
+        }
+
+        .MyGameRecordList__C-item-m-bottom {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 11.28px;
+        }
+
+        /* Right Status */
+        .MyGameRecordList__C-item-r {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            justify-content: center;
+            color: rgb(253, 86, 92);
+        }
+
+        .MyGameRecordList__C-item-r.success {
+            color: #4caf50;
+        }
+
+        .status-box {
+            padding: 0 18.47px;
+            margin-bottom: 3.07px;
+            border-radius: 5.13px;
+            border: 0.8px solid rgb(253, 86, 92);
+            font-size: 11.28px;
+            line-height: 18.4px;
+            font-weight: 500;
+        }
+
+        .success .status-box {
+            border-color: #4caf50;
+            color: #4caf50;
+        }
+
+        .MyGameRecordList__C-item-r span {
+            font-size: 14.36px;
+            font-weight: 500;
+        }
+
+        /* Footer */
+        .MyGameRecord__C-foot {
+            height: 61.5px;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 0 0 .21333rem .21333rem;
+            border: .01333rem solid rgba(255, 200, 55, .1);
+            margin-top: -1px;
+        }
+
+        .MyGameRecord__C-foot-page {
+            font-size: 12px;
+            color: #fff;
+        }
+
+        .icon {
+            border: solid #fff;
+            border-width: 0 2px 2px 0;
+            display: inline-block;
+            padding: 4px;
+        }
+
+        .right { transform: rotate(-45deg); }
+        .left { transform: rotate(135deg); }
+        .disabled { opacity: 0.3; cursor: not-allowed; }
+
+    </style>
+</head>
+<body>
+
+<div class="MyGameRecord__C">
+    <!-- Header -->
+    <div class="MyGameRecord__C-head">
+        <div class="MyGameRecord__C-head-moreB">more</div>
+    </div>
+
+    <!-- Body -->
+    <div class="MyGameRecord__C-body">
+        <div class="MyGameRecordList__C">
+            
+            <!-- Item 1 -->
+            <div class="MyGameRecordList__C-item">
+                <div class="MyGameRecordList__C-item-l MyGameRecordList__C-item-l-small">small</div>
+                <div class="MyGameRecordList__C-item-m">
+                    <div class="MyGameRecordList__C-item-m-top">20260430301786</div>
+                    <div class="MyGameRecordList__C-item-m-bottom">2026-04-30 14:52:54</div>
+                </div>
+                <div class="MyGameRecordList__C-item-r">
+                    <div class="status-box">failed</div>
+                    <span>-₹4.90</span>
+                </div>
+            </div>
+
+            <!-- Item 2 -->
+            <div class="MyGameRecordList__C-item">
+                <div class="MyGameRecordList__C-item-l MyGameRecordList__C-item-l-green"></div>
+                <div class="MyGameRecordList__C-item-m">
+                    <div class="MyGameRecordList__C-item-m-top">20260429302443</div>
+                    <div class="MyGameRecordList__C-item-m-bottom">2026-04-29 20:21:16</div>
+                </div>
+                <div class="MyGameRecordList__C-item-r success">
+                    <div class="status-box">success</div>
+                    <span>+₹15.68</span>
+                </div>
+            </div>
+
+            <!-- Item 3 -->
+            <div class="MyGameRecordList__C-item">
+                <div class="MyGameRecordList__C-item-l MyGameRecordList__C-item-l-3">3</div>
+                <div class="MyGameRecordList__C-item-m">
+                    <div class="MyGameRecordList__C-item-m-top">20260430301785</div>
+                    <div class="MyGameRecordList__C-item-m-bottom">2026-04-30 14:52:22</div>
+                </div>
+                <div class="MyGameRecordList__C-item-r">
+                    <div class="status-box">failed</div>
+                    <span>-₹2.94</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="MyGameRecord__C-foot">
+        <div class="MyGameRecord__C-foot-previous disabled">
+            <i class="icon left"></i>
+        </div>
+        <div class="MyGameRecord__C-foot-page">1/3</div>
+        <div class="MyGameRecord__C-foot-next">
+            <i class="icon right"></i>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

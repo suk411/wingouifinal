@@ -93,8 +93,22 @@ const WinGo: React.FC = () => {
 
   const updateTimerDisplay = () => {
     setTimeRemaining(prev => {
-      const next = prev > 0 ? prev - 1 : 0;
+      if (prev <= 0) return 0;
       
+      const next = prev - 1;
+      
+      if (next === 0) {
+        setIsCountdownActive(false);
+        syncGameData();
+        fetchHistoryData();
+        // Extra sync after delay to ensure we get the new round
+        setTimeout(() => {
+          syncGameData();
+          fetchHistoryData();
+        }, 2000);
+        return 0;
+      }
+
       const m = Math.floor(next / 60);
       const s = next % 60;
       setTimerDisplay({ m: String(m), s: String(s).padStart(2, '0') });
@@ -104,14 +118,6 @@ const WinGo: React.FC = () => {
         if (showBetPopup) setShowBetPopup(false);
       } else {
         setIsCountdownActive(false);
-      }
-
-      if (next === 0) {
-        // Round ended
-        setTimeout(() => {
-          syncGameData();
-          fetchHistoryData();
-        }, 2000);
       }
 
       return next;
