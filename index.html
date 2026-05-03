@@ -3218,7 +3218,7 @@
       if (refreshBtn) refreshBtn.style.animation = 'rotate 1s linear infinite';
 
       try {
-        const response = await fetch(`${API_BASE_URL}/api/wingo/user`, {
+        const response = await fetch(`${API_BASE_URL}/api/account/balance`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
