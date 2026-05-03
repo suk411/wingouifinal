@@ -3055,6 +3055,8 @@
     const cdDigit2 = document.getElementById('cdDigit2');
     const issueElement = document.querySelector('.TimeLeft__C-id');
 
+
+
     // Audio assets
     const audioDi1 = new Audio('assets/mp3/di1.mp3');
     const audioDi2 = new Audio('assets/mp3/di2.mp3');
@@ -3252,26 +3254,48 @@
       const qty = parseInt(document.getElementById('qtyInput').value || 1);
       const betAmount = selectedBalance * qty;
 
+      console.log('Debug - placeBet:');
+      console.log('  currentIssue:', currentIssue);
+      console.log('  betAmount:', betAmount);
+      console.log('  selectedBetType:', selectedBetType);
+      console.log('  qty:', qty);
+      console.log('  selectedBalance:', selectedBalance);
+
       if (!currentIssue) {
-        alert('Issue number not available. Please try again.');
+        alert('Issue number not available. Please refresh the page and try again.');
+        return;
+      }
+
+      if (!betAmount || betAmount < 1) {
+        alert('Bet amount must be at least 1');
+        return;
+      }
+
+      if (!selectedBetType) {
+        alert('Please select a bet type');
         return;
       }
 
       try {
+        const requestBody = {
+          issueNumber: currentIssue,
+          betamount: betAmount,
+          selectType: selectedBetType
+        };
+        console.log('  Request Body:', requestBody);
+
         const response = await fetch(`${API_BASE_URL}/api/wingo/bet`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`
           },
-          body: JSON.stringify({
-            issueNumber: currentIssue,
-            betamount: betAmount,
-            selectType: selectedBetType
-          })
+          body: JSON.stringify(requestBody)
         });
 
+        console.log('  Response status:', response.status);
         const data = await response.json();
+        console.log('  Response data:', data);
 
         if (data.status === 'success') {
           alert('Bet placed successfully!');
